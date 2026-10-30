@@ -224,18 +224,6 @@
     <Compile Include="BinaryImport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BoscPlayer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BoscPlayer.Designer.cs">
-      <DependentUpon>BoscPlayer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CheckSystemForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CheckSystemForm.Designer.cs">
-      <DependentUpon>CheckSystemForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="CreateDataForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -244,27 +232,6 @@
     </Compile>
     <Compile Include="DrawGraph.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DSP_Form.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="EscKeyForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="EscKeyForm.Designer.cs">
-      <DependentUpon>EscKeyForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="EvalTest.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="EvalTest.Designer.cs">
-      <DependentUpon>EvalTest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FileConvForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FileConvForm.Designer.cs">
-      <DependentUpon>FileConvForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FileDialog.cs" />
     <Compile Include="FirstSettingForm.cs">
@@ -275,24 +242,6 @@
     </Compile>
     <Compile Include="ConvSet.Designer.cs">
       <DependentUpon>ConvSet.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GraphicEqualizer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GraphicEqualizer.Designer.cs">
-      <DependentUpon>GraphicEqualizer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MoverForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MoverForm.Designer.cs">
-      <DependentUpon>MoverForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="NetPlayer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="NetPlayer.Designer.cs">
-      <DependentUpon>NetPlayer.cs</DependentUpon>
     </Compile>
     <Compile Include="NetworkTcp.cs" />
     <Compile Include="RealtimeConv.cs" />
@@ -309,38 +258,11 @@
     <Compile Include="SPGainForm.Designer.cs">
       <DependentUpon>SPGainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="IIRFilter.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="ImpMeasForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ImpMeasForm.Designer.cs">
       <DependentUpon>ImpMeasForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="IR_Calc.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="IR_Calc.Designer.cs">
-      <DependentUpon>IR_Calc.cs</DependentUpon>
-    </Compile>
-    <Compile Include="LevelMeter.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LevelMeter.Designer.cs">
-      <DependentUpon>LevelMeter.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MakeInv.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MakeInv.Designer.cs">
-      <DependentUpon>MakeInv.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ProcessWave.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ProgressBarForm.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -362,21 +284,6 @@
     <Compile Include="SaveForm.Designer.cs">
       <DependentUpon>SaveForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Script.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SetMicAmpForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SetMicAmpForm.Designer.cs">
-      <DependentUpon>SetMicAmpForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StreamingForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="StreamingForm.Designer.cs">
-      <DependentUpon>StreamingForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="UEServer.cs" />
     <Compile Include="UEServerForm.cs">
       <SubType>Form</SubType>
@@ -387,32 +294,8 @@
     <Compile Include="VersionInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WavConvert.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WavConvert.Designer.cs">
-      <DependentUpon>WavConvert.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WaveMonitorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WaveMonitorForm.Designer.cs">
-      <DependentUpon>WaveMonitorForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WavFileForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WavFileForm.Designer.cs">
-      <DependentUpon>WavFileForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="WavStream.cs">
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ZyboForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ZyboForm.Designer.cs">
-      <DependentUpon>ZyboForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="amt.resx">
       <DependentUpon>amt.cs</DependentUpon>
@@ -420,17 +303,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BinaryImport.resx">
       <DependentUpon>BinaryImport.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BoscPlayer.resx">
-      <DependentUpon>BoscPlayer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CheckSystemForm.resx">
-      <DependentUpon>CheckSystemForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ConvSet.resx">
-      <DependentUpon>ConvSet.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CreateDataForm.resx">
@@ -445,57 +317,16 @@
       <DependentUpon>DrawGraph.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="DSP_Form.resx">
-      <DependentUpon>DSP_Form.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="EscKeyForm.resx">
-      <DependentUpon>EscKeyForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="EvalTest.resx">
-      <DependentUpon>EvalTest.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FileConvForm.resx">
-      <DependentUpon>FileConvForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FirstSettingForm.resx">
       <DependentUpon>FirstSettingForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraphicEqualizer.resx">
-      <DependentUpon>GraphicEqualizer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="IIRFilter.resx">
-      <DependentUpon>IIRFilter.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ImpMeasForm.resx">
       <DependentUpon>ImpMeasForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="IR_Calc.resx">
-      <DependentUpon>IR_Calc.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LevelMeter.resx">
-      <DependentUpon>LevelMeter.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MakeInv.resx">
-      <DependentUpon>MakeInv.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MoverForm.resx">
-      <DependentUpon>MoverForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NetPlayer.resx">
-      <DependentUpon>NetPlayer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ProcessWave.resx">
-      <DependentUpon>ProcessWave.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ProgressBarForm.resx">
-      <DependentUpon>ProgressBarForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
+    <EmbeddedResource Include="ConvSet.resx">
+      <DependentUpon>ConvSet.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RevTimeForm.resx">
       <SubType>Designer</SubType>
@@ -508,15 +339,8 @@
     <EmbeddedResource Include="SelectChannel.resx">
       <DependentUpon>SelectChannel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SetMicAmpForm.resx">
-      <DependentUpon>SetMicAmpForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="SPGainForm.resx">
       <DependentUpon>SPGainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StreamingForm.resx">
-      <DependentUpon>StreamingForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UEServerForm.resx">
       <DependentUpon>UEServerForm.cs</DependentUpon>
@@ -525,22 +349,8 @@
       <DependentUpon>VersionInfo.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WavConvert.resx">
-      <DependentUpon>WavConvert.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WaveMonitorForm.resx">
-      <DependentUpon>WaveMonitorForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <Content Include="App.ico" />
     <Content Include="ToDo.txt" />
-    <EmbeddedResource Include="WavFileForm.resx">
-      <DependentUpon>WavFileForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ZyboForm.resx">
-      <DependentUpon>ZyboForm.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

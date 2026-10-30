@@ -21,22 +21,12 @@ namespace amt
         private System.Windows.Forms.MainMenu mainMenu1;
         private System.Windows.Forms.MenuItem menuItem_File;
         private System.Windows.Forms.MenuItem menuItem_Data;
-        private System.Windows.Forms.MenuItem menuItem_Processing;
         public System.Windows.Forms.MenuItem menuItem_Exit;
         private System.Windows.Forms.MenuItem menuItem_workfolder;
         private System.Windows.Forms.MenuItem menuItem_Save;
-        private System.Windows.Forms.MenuItem menuItem_Conv;
-        private System.Windows.Forms.MenuItem menuItem_DeConv;
-        private System.Windows.Forms.MenuItem menuItem_IIR;
         private System.Windows.Forms.MenuItem menuItem_Help;
         private System.Windows.Forms.MenuItem menuItem_Version;
-        private System.Windows.Forms.MenuItem menuItem_script;
-        private System.Windows.Forms.MenuItem menuItem_scriptRec;
-        private System.Windows.Forms.MenuItem menuItem_scriptLoad;
-        private System.Windows.Forms.MenuItem menuItem_scriptRecON;
-        private System.Windows.Forms.MenuItem menuItem_scriptRecOFF;
         private System.Windows.Forms.MenuItem menuItem_FFTpoint;
-        private System.Windows.Forms.MenuItem menuItem_CheckBoSC;
 
         private System.Windows.Forms.TextBox ConsoleMsg;
         private IContainer components;
@@ -62,10 +52,7 @@ namespace amt
         public asio_io asio = null;
         public ChannelInfo[] data_ch;
 
-        private System.Windows.Forms.MenuItem menuItem_Add;
-        private System.Windows.Forms.MenuItem menuItem_Mpy;
         private int btn_left;
-        private System.Windows.Forms.MenuItem menuItem_cvt;
         private System.Windows.Forms.MenuItem menuItem_movef;
 
         public enum BufferStatus { empty, buffer, signal, sn_perfect, sn_good, sn_bad };
@@ -109,17 +96,7 @@ namespace amt
         public string selected_driver_name = "";
         public bool ok_flg = false;
         public Property myProperty;
-        private int script_count = 0;
-        private const int max_script_count = 12;
-        private int script_count_init;
-        public Script myScripts;
-        public Script[] myScriptArray = new Script[max_script_count];
-        private Shortcut[] shortcuts = new Shortcut[max_script_count] { Shortcut.F1, Shortcut.F2, Shortcut.F3, Shortcut.F4, Shortcut.F5, Shortcut.F6, Shortcut.F7, Shortcut.F8, Shortcut.F9, Shortcut.F10, Shortcut.F11, Shortcut.F12 };
-        private string[] shortcutName = new string[max_script_count] { "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12" };
-        public string ScriptSeparator = " ";
         delegate void SetTextCallback(string text);
-        public bool script_recording = false;
-        private MenuItem menuItem_stream;
         private MenuItem menuItem_adjustamp;
         public Label adda_point_lbl;
         public TrackBar adda_point_tb;
@@ -169,7 +146,6 @@ namespace amt
         public ChannelInfo[] ch_info_work;
         private MenuItem menuItem_wavf_export;
         public int max_row_of_button = 16;
-        private MenuItem menuItem_ch_assign;
         public int in_btn_cnt;
         public int out_btn_cnt;
         public int work_btn_cnt = 6;
@@ -178,10 +154,6 @@ namespace amt
         public string assign_out_ch = "";
         private bool btn_not_ready = true;
         public ChannelInfo ch_info_vol;
-        public string script_folder = null;
-        public bool script_continue = true;
-        public ProcessWave pwave = null;
-        private bool command_mode = false;
         public double zitter_level = 0.0;
         public int total_error = 0;
         public bool rtmove_on = false;
@@ -194,80 +166,29 @@ namespace amt
         public int sample_freq = 48000;
         public ArrayList started_thread_list = new ArrayList();
 
-        private MenuItem menuItem1;
-        private MenuItem menuItem_read_wav;
-        private MenuItem menuItem_write_wav;
-        private MenuItem menuItem_clearall;
         private MenuItem menuItem_verify;
         private MenuItem menuItem_verify1;
         private MenuItem menuItem_verify2;
         private MenuItem menuItem_verify3;
-        private MenuItem menuItem_rtconv;
-        private MenuItem menuItem_amp;
         private MenuItem menuItem3;
-        private MenuItem menuItem_NetPlayer;
-        private MenuItem menuItem_wav_stream;
-        private MenuItem menuItem_double_stream;
-        private MenuItem menuItem5;
-        private MenuItem menuItem_afs;
         private MenuItem menuItem6;
         private MenuItem menuItem8;
         private MenuItem menuItem7;
         private MenuItem menuItem_ImpMeas;
-        private MenuItem menuItem_IR_Calc;
-        private MenuItem menuItem_InvSystemDesign;
-        private MenuItem menuItem_LevelMeter;
-        private MenuItem menuItem9;
         private MenuItem menuItem_spgain;
-        private MenuItem menuItem_micgain;
-        private MenuItem menuItem_rtconv_fpga;
-        private MenuItem menuItem_rtconv_aiao;
-        private MenuItem menuItem_rtconv_fiao;
-        private MenuItem menuItem_FileConv;
-        private MenuItem menuItem_eqtest;
-        private MenuItem menuItem_geq;
         public Label max_val_lbl;
         private int mkl_max_thread = 0;
+        private MenuItem menuItem_rtconv;
         public ConvSet convset = null;
-        private bool convset_fileinput;
-        private MenuItem menuItem_ARS;
-        private MenuItem menuItem_evaltest;
         public bool has_dampgainch = false;
-        private FileConvForm file_conv = null;
         public ToolStripProgressBar toolStripProgressBar1;
-        private MenuItem menuItem_boscplayer;
-        private MenuItem menuItem_wavstreaming;
         public bool without_asio = true;
-        private MenuItem menuItem4;
-        private MenuItem menuItem_mover_server;
         private MenuItem menuItem_ueserver;
-        private MenuItem menuItem_ZYBO;
-        public bool net_trig_start = false;
 
         public Amt(String[] args)
         {
             asio = new asio_io();
-            String script_fullpath = "";
             fd = new FileDialog1();
-            if (args.Length > 0)
-            {
-                command_mode = true;
-                if (args[0] == "/c")
-                {
-                    file_conv = new FileConvForm(this);
-                    if(args.Length > 3)
-                    {
-                        file_conv.source_path_tb.Text = args[1];
-                        file_conv.filter_path_tb.Text = args[2];
-                        file_conv.output_path_tb.Text = args[3];
-                        file_conv.Calc_start(true);
-                    }
-                    else
-                        file_conv.ShowDialog();
-                    System.Environment.Exit(0);
-                }
-                else script_fullpath = args[0];
-            }
             //
             // Windows �t�H�[�� �f�U�C�i �T�|�[�g�ɕK�v�ł��B
             //
@@ -279,39 +200,14 @@ namespace amt
 
             myProperty = new Property(this);
             myProperty.Load(true);
-            myScripts = new Script(this);
 
-            if (script_fullpath == "")
-            {
-                FirstSettingForm cdata = new FirstSettingForm(this, mkl_max_thread);
-                cdata.ShowDialog();
-            }
-            else if (selected_driver_name != "")
-            {
-                int result;
-                unsafe
-                {
-                    fixed (Char* ss = selected_driver_name)
-                    {
-                        result = asio.infoget(ss);
-                    }
-                }
-                if (result < 0)
-                {
-                    String error_msg = "";
-                    unsafe
-                    {
-                        error_msg = new String(asio.error_message());
-                    }
-                    System.Windows.Forms.MessageBox.Show("Driver does not exist: " + selected_driver_name + ":" + error_msg);
-                    System.Environment.Exit(0);
-                }
-                else
-                {
-                    without_asio = false;
-                }
-                asio.SetDataLength(default_dleng, without_asio);
-            }
+            FirstSettingForm cdata = new FirstSettingForm(this, mkl_max_thread);
+            cdata.ShowDialog();
+            // These need ASIO; leave them disabled when started without ASIO.
+            menuItem_rtconv.Enabled = false;
+            menuItem_ueserver.Enabled = !without_asio;
+            menuItem_ImpMeas.Enabled = !without_asio;
+            menuItem_spgain.Enabled = !without_asio;
             if (without_asio == false)
             {
                 if (asio.initialize() < 0) asio_error_exit();
@@ -353,18 +249,9 @@ namespace amt
 
             while (fftpoint < asio.GetDataLength()) fftpoint *= 2;
 
-            script_count_init = menuItem_script.MenuItems.Count;
             CheckForIllegalCrossThreadCalls = false;
-            SetScriptLabel();
 
             Setup_mainform();
-
-            if (script_fullpath != "" && myScripts.LoadScript(script_fullpath))
-            {
-                myScripts.ExecScript();
-                //                asio.exit();
-                //                System.Environment.Exit(0);
-            }
 
             Thread thrd = Thread.CurrentThread;
             thrd.Priority = ThreadPriority.Highest;
@@ -426,395 +313,7 @@ namespace amt
             return args;
         }
 
-        public bool Exec_cmd(string cmd_text)
-        {
-            int[] ch_list;
-            bool result = true;
 
-            ArrayList argv = Separate_arg(cmd_text);
-            string cmd = (string)(string)argv[0];
-            if (cmd == "data_create")
-            {
-                ch_list = Text2intarray((string)argv[2]);
-                ChannelInfo.StreamType ch_type = ChannelInfo.StreamType.no_io;
-                if ((string)argv[1] == "IN") ch_type = ChannelInfo.StreamType.asioin;
-                else if ((string)argv[1] == "OUT") ch_type = ChannelInfo.StreamType.asioout;
-                for (int ii = 0; ii < ch_list.Length; ii++)
-                {
-                    ChannelInfo cinfo = Find_ch_info((string)argv[1], ch_list[ii]);
-                    if (DataCreate(cinfo, ch_type) == false) break;
-                }
-            }
-            else if (cmd == "PlayStart") { PlayStart(); }
-            else if (cmd == "Clear")
-            {
-                ChannelInfo cinfo = Find_ch_info((string)argv[1], System.Convert.ToInt32((string)argv[2]));
-                DataClear(cinfo);
-            }
-            else if (cmd == "SetData")
-            {
-                int data_no = System.Convert.ToInt32((string)argv[1]);
-                ChannelInfo cinfo = Find_ch_info((string)argv[2], System.Convert.ToInt32((string)argv[3]));
-                SetData(data_no, cinfo);
-            }
-            else if (cmd == "Delete")
-            {
-                ChannelInfo cinfo = Find_ch_info((string)argv[1], System.Convert.ToInt32((string)argv[2]));
-                DataDispose(cinfo);
-            }
-            else if (cmd == "WavRead")
-            {
-                ch_list = Text2intarray((string)argv[4]);
-                if (ch_list.Length == 1)
-                {
-                    ChannelInfo cinfo = Find_ch_info((string)argv[3], ch_list[0]);
-                    string filename = (string)argv[1];
-                    WavRead_script(filename, cinfo);
-                }
-                else
-                {
-                    for (int ii = 0; ii < ch_list.Length; ii++)
-                    {
-                        ChannelInfo cinfo = Find_ch_info((string)argv[3], ch_list[ii]);
-                        string file1 = string.Format((string)argv[1], ch_list[ii]);
-                        WavRead_script(file1, cinfo);
-                    }
-                }
-            }
-            else if (cmd == "WavExport")
-            {
-                string filename = (string)argv[1];
-
-                ch_list = Text2intarray((string)argv[3]);
-                if (ch_list.Length == 1)
-                {
-                    ChannelInfo cinfo = Find_ch_info((string)argv[2], ch_list[0]);
-                    if (WavExport(filename, cinfo, true) == false) return false;  // Error
-                }
-                else
-                {
-                    for (int ii = 0; ii < ch_list.Length; ii++)
-                    {
-                        ChannelInfo cinfo = Find_ch_info((string)argv[2], ch_list[ii]);
-                        string file1 = string.Format((string)argv[1], ch_list[ii]);
-                        if (WavExport(file1, cinfo, true) == false) return false;  // Error
-                    }
-                }
-            }
-            else if (cmd == "WavImport")
-            {
-                string filename = (string)argv[1];
-
-                ch_list = Text2intarray((string)argv[3]);
-                if (ch_list.Length == 1)
-                {
-                    ChannelInfo cinfo = Find_ch_info((string)argv[2], ch_list[0]);
-                    WavRead_script(filename, cinfo);
-                }
-                else
-                {
-                    for (int ii = 0; ii < ch_list.Length; ii++)
-                    {
-                        ChannelInfo cinfo = Find_ch_info((string)argv[2], ch_list[ii]);
-                        string file1 = string.Format((string)argv[1], ch_list[ii]);
-                        WavRead_script(file1, cinfo);
-                    }
-                }
-            }
-            else if (cmd == "WavVerify")
-            {
-                string filename = (string)argv[1];
-
-                ch_list = Text2intarray((string)argv[3]);
-                int offset = System.Convert.ToInt32((string)argv[4]);
-                if (ch_list.Length == 1)
-                {
-                    ChannelInfo cinfo = Find_ch_info((string)argv[2], ch_list[0]);
-                    WavVerify_script(filename, cinfo, offset);
-                }
-                else
-                {
-                    for (int ii = 0; ii < ch_list.Length; ii++)
-                    {
-                        ChannelInfo cinfo = Find_ch_info((string)argv[2], ch_list[ii]);
-                        string file1 = string.Format(filename, ch_list[ii]);
-                        WavVerify_script(file1, cinfo, offset);
-                    }
-                }
-            }
-            else if (cmd == "move_forward")
-            {
-                int leng = System.Convert.ToInt32((string)argv[1]);
-                ChannelInfo cinfo = Find_ch_info((string)argv[2], System.Convert.ToInt32((string)argv[3]));
-                asio.move_forward((int)cinfo.type, cinfo.btn_no, leng);
-            }
-            else if (cmd == "Copy")
-            {
-                ChannelInfo src_cinfo = Find_ch_info((string)argv[1], System.Convert.ToInt32((string)argv[2]));
-                ChannelInfo dst_cinfo = Find_ch_info((string)argv[3], System.Convert.ToInt32((string)argv[4]));
-                asio.CopyData((int)src_cinfo.type, src_cinfo.btn_no, (int)dst_cinfo.type, dst_cinfo.btn_no);
-            }
-            else if (cmd == "Subtract")
-            {
-                ChannelInfo src_cinfo = Find_ch_info((string)argv[1], System.Convert.ToInt32((string)argv[2]));
-                ChannelInfo dst_cinfo = Find_ch_info((string)argv[3], System.Convert.ToInt32((string)argv[4]));
-                asio.SubData((int)src_cinfo.type, src_cinfo.btn_no, (int)dst_cinfo.type, dst_cinfo.btn_no);
-            }
-            else if (cmd == "Verify")
-            {
-                ChannelInfo src_ch = Find_ch_info((string)argv[1], System.Convert.ToInt32((string)argv[2]));
-                ChannelInfo dst_ch = Find_ch_info((string)argv[3], System.Convert.ToInt32((string)argv[4]));
-                double ss = VerifyData(src_ch, dst_ch);
-                Button_status_verify(dst_ch.btn, ss);
-            }
-            else if (cmd == "Divide")
-            {
-                int fftpnt = System.Convert.ToInt32((string)argv[1]);
-                ChannelInfo src_cinfo = Find_ch_info((string)argv[2], System.Convert.ToInt32((string)argv[3]));
-                ChannelInfo dst_cinfo = Find_ch_info((string)argv[4], System.Convert.ToInt32((string)argv[5]));
-                asio.DivData((int)src_cinfo.type, src_cinfo.btn_no, (int)dst_cinfo.type, dst_cinfo.btn_no, fftpnt);
-            }
-            else if (cmd == "Convolution")
-            {
-                int fftpnt = System.Convert.ToInt32((string)argv[1]);
-                double scale = System.Convert.ToDouble((string)argv[2]);
-                double freq_st = System.Convert.ToDouble((string)argv[3]);
-                double freq_ed = System.Convert.ToDouble((string)argv[4]);
-                ChannelInfo src_cinfo = Find_ch_info((string)argv[5], System.Convert.ToInt32((string)argv[6]));
-
-                ch_list = Text2intarray((string)argv[10]);
-                if (ch_list.Length == 1)
-                {
-                    ChannelInfo cinfo = Find_ch_info((string)argv[9], ch_list[0]);
-                    asio.Convolution((int)src_cinfo.type, src_cinfo.btn_no, (int)cinfo.type, cinfo.btn_no, (int)cinfo.type, cinfo.btn_no, fftpoint, scale, freq_st, freq_ed);
-                }
-                else
-                {
-                    for (int ii = 0; ii < ch_list.Length; ii++)
-                    {
-                        ChannelInfo cinfo = Find_ch_info((string)argv[9], ch_list[ii]);
-                        asio.Convolution((int)src_cinfo.type, src_cinfo.btn_no, (int)cinfo.type, cinfo.btn_no, (int)cinfo.type, cinfo.btn_no, fftpoint, scale, freq_st, freq_ed);
-                    }
-                }
-            }
-            else if (cmd == "Deconvolution")
-            {
-                ChannelInfo in_ch1 = Find_ch_info((string)argv[1], System.Convert.ToInt32((string)argv[2]));
-                ChannelInfo in_ch2 = Find_ch_info((string)argv[3], System.Convert.ToInt32((string)argv[4]));
-                ChannelInfo out_ch = Find_ch_info((string)argv[5], System.Convert.ToInt32((string)argv[6]));
-                int fftpnt = System.Convert.ToInt32((string)argv[7]);
-                double scale = System.Convert.ToDouble((string)argv[8]);
-                double freq_st = System.Convert.ToDouble((string)argv[9]);
-                double freq_ed = System.Convert.ToDouble((string)argv[10]);
-                asio.Deconvolution((int)in_ch1.type, in_ch1.btn_no, (int)in_ch2.type, in_ch2.btn_no, (int)out_ch.type, out_ch.btn_no, fftpoint, scale, freq_st, freq_ed);
-                PostCreateSignal(out_ch, "Deconvolution:" + in_ch1.ToString() + "/" + in_ch2.ToString());
-            }
-            else if (cmd == "WavConvolution")
-            {
-                string in_file = (string)argv[1];
-                string out_file = (string)argv[2];
-                ChannelInfo filt_ch = Find_ch_info((string)argv[3], System.Convert.ToInt32((string)argv[4]));
-                WavConvolution(filt_ch, in_file, out_file);
-            }
-            else if (cmd == "BinRead")
-            {
-                int filesize = System.Convert.ToInt32((string)argv[2]);
-                int dleng = System.Convert.ToInt32((string)argv[3]);
-                bool byteswap = System.Convert.ToBoolean((string)argv[4]);
-                ChannelInfo cinfo = Find_ch_info((string)argv[5], System.Convert.ToInt32((string)argv[6]));
-                BinaryImport BIForm = new BinaryImport(cinfo, (string)argv[1], filesize, this);
-                BIForm.GetRead(dleng, byteswap);
-            }
-            else if (cmd == "makePureTone")
-            {
-                double amp = System.Convert.ToDouble((string)argv[1]);
-                double freq = System.Convert.ToDouble((string)argv[2]);
-                ChannelInfo cinfo = Find_ch_info((string)argv[3], System.Convert.ToInt32((string)argv[4]));
-                asio.makePureTone(amp, freq, (int)cinfo.type, cinfo.btn_no);
-                PostCreateSignal(cinfo, "PureTone was created.");
-            }
-            else if (cmd == "makeTSP")
-            {
-                int fftpoint = System.Convert.ToInt32((string)argv[1]);
-                double tsp_amp = System.Convert.ToDouble((string)argv[2]);
-                int coef_m_numer = System.Convert.ToInt32((string)argv[3]);
-                int coef_m_denom = System.Convert.ToInt32((string)argv[4]);
-                double coef_shift = System.Convert.ToDouble((string)argv[5]);
-                int flag = System.Convert.ToInt32((string)argv[6]);
-                ChannelInfo cinfo = Find_ch_info((string)argv[7], System.Convert.ToInt32((string)argv[8]));
-                asio.makeTSP(fftpoint, (int)cinfo.type, cinfo.btn_no, tsp_amp, coef_m_numer, coef_m_denom, coef_shift, flag);
-                PostCreateSignal(cinfo, "TSP was created.");
-            }
-            else if (cmd == "makePinkNoise")
-            {
-                double amp = System.Convert.ToDouble((string)argv[1]);
-                uint rndm_coef = System.Convert.ToUInt32((string)argv[2]);
-                bool is_voss_algorithm = ((string)argv[3] == "Voss");
-
-                ch_list = Text2intarray((string)argv[5]);
-                uint rndm_coef1 = rndm_coef;
-                for (int ii = 0; ii < ch_list.Length; ii++)
-                {
-                    ChannelInfo cinfo = Find_ch_info((string)argv[4], ch_list[ii]);
-                    if (rndm_coef == 0) rndm_coef1 = (uint)(ii + 1);
-                    if (is_voss_algorithm) asio.makePinkNoise_Voss(amp, rndm_coef1, (int)cinfo.type, cinfo.btn_no);
-                    else asio.makePinkNoise_Pole(amp, rndm_coef1, (int)cinfo.type, cinfo.btn_no);
-                    PostCreateSignal(cinfo, "Pink Noise (" + (string)argv[3] + ": seed=" + rndm_coef1.ToString() + ") was created.");
-                }
-            }
-            else if (cmd == "makeWhiteNoise")
-            {
-                double amp = System.Convert.ToDouble((string)argv[1]);
-                uint rndm_coef = System.Convert.ToUInt32((string)argv[2]);
-                ChannelInfo cinfo = Find_ch_info((string)argv[3], System.Convert.ToInt32((string)argv[4]));
-                asio.makeWhiteNoise(amp, rndm_coef, (int)cinfo.type, cinfo.btn_no);
-                PostCreateSignal(cinfo, "White Noise was created.");
-            }
-            else if (cmd == "makePulse")
-            {
-                double amp = System.Convert.ToDouble((string)argv[1]);
-                int delay = System.Convert.ToInt32((string)argv[2]);
-                int width = System.Convert.ToInt32((string)argv[3]);
-                ch_list = Text2intarray((string)argv[5]);
-                for (int ii = 0; ii < ch_list.Length; ii++)
-                {
-                    ChannelInfo cinfo = Find_ch_info((string)argv[4], ch_list[ii]);
-                    asio.makePulse(amp, delay, width, (int)cinfo.type, cinfo.btn_no);
-                    PostCreateSignal(cinfo, "Pulse was created.");
-                }
-            }
-            else if (cmd == "makeFilter")
-            {
-                int freq_from = System.Convert.ToInt32((string)argv[1]);
-                int freq_to = System.Convert.ToInt32((string)argv[2]);
-                int level_from = System.Convert.ToInt32((string)argv[3]);
-                int level_to = System.Convert.ToInt32((string)argv[4]);
-                int fftpoint = System.Convert.ToInt32((string)argv[5]);
-                ChannelInfo cinfo = Find_ch_info((string)argv[6], System.Convert.ToInt32((string)argv[7]));
-                asio.makeFilter(freq_from, freq_to, level_from, level_to, fftpoint, (int)cinfo.type, cinfo.btn_no);
-                PostCreateSignal(cinfo, "Filter was created.");
-            }
-            else if (cmd == "makeSaw")
-            {
-                double max_val = System.Convert.ToDouble((string)argv[1]);
-                double min_val = System.Convert.ToDouble((string)argv[2]);
-                int period_point = System.Convert.ToInt32((string)argv[3]);
-                bool max2min = System.Convert.ToBoolean((string)argv[4]);
-                ChannelInfo cinfo = Find_ch_info((string)argv[5], System.Convert.ToInt32((string)argv[6]));
-                asio.makeSaw((int)cinfo.type, cinfo.btn_no, max_val, min_val, period_point, max2min);
-                PostCreateSignal(cinfo, "Saw was created.");
-            }
-            else if (cmd == "Add")
-            {
-
-                ChannelInfo d1_ch = Find_ch_info((string)argv[1], System.Convert.ToInt32((string)argv[2]));
-                ChannelInfo d2_ch = Find_ch_info((string)argv[3], System.Convert.ToInt32((string)argv[4]));
-                ChannelInfo d3_ch = Find_ch_info((string)argv[5], System.Convert.ToInt32((string)argv[6]));
-                asio.Add((int)d1_ch.type, d1_ch.btn_no, (int)d2_ch.type, d2_ch.btn_no, (int)d3_ch.type, d3_ch.btn_no);
-                PostCreateSignal(d3_ch, "Add:" + d1_ch.ToString() + "+" + d2_ch.ToString());
-            }
-            else if (cmd == "Multiply")
-            {
-                ChannelInfo d1_ch = Find_ch_info((string)argv[1], System.Convert.ToInt32((string)argv[2]));
-                ChannelInfo d2_ch = Find_ch_info((string)argv[3], System.Convert.ToInt32((string)argv[4]));
-                ChannelInfo d3_ch = Find_ch_info((string)argv[5], System.Convert.ToInt32((string)argv[6]));
-                asio.Multiply((int)d1_ch.type, d1_ch.btn_no, (int)d2_ch.type, d2_ch.btn_no, (int)d3_ch.type, d3_ch.btn_no);
-                PostCreateSignal(d3_ch, "Multiply:" + d1_ch.ToString() + "+" + d2_ch.ToString());
-            }
-            else if (cmd == "IIRLPF" || cmd == "IIRHPF")
-            {
-                ChannelInfo in_ch = Find_ch_info((string)argv[1], System.Convert.ToInt32((string)argv[2]));
-                ChannelInfo out_ch = Find_ch_info((string)argv[3], System.Convert.ToInt32((string)argv[4]));
-                int filter_order = System.Convert.ToInt32((string)argv[5]);
-                double cut_freq = System.Convert.ToDouble((string)argv[6]);
-                double ripple = System.Convert.ToDouble((string)argv[7]);
-                double scale = System.Convert.ToDouble((string)argv[8]);
-                if (cmd == "IIRLPF")
-                    asio.IIR_LPF(filter_order, cut_freq, ripple, scale, (int)in_ch.type, in_ch.btn_no, (int)out_ch.type, out_ch.btn_no);
-                else
-                    asio.IIR_LPF(filter_order, cut_freq, ripple, scale, (int)in_ch.type, in_ch.btn_no, (int)out_ch.type, out_ch.btn_no);
-                PostCreateSignal(out_ch, cmd + ": in ch=" + in_ch.btn_no.ToString());
-            }
-            else if (cmd == "OCTBPF" || cmd == "IIRBPF")
-            {
-                ChannelInfo in_ch = Find_ch_info((string)argv[1], System.Convert.ToInt32((string)argv[2]));
-                ChannelInfo out_ch = Find_ch_info((string)argv[3], System.Convert.ToInt32((string)argv[4]));
-                int filter_order = System.Convert.ToInt32((string)argv[5]);
-                double center_freq = System.Convert.ToDouble((string)argv[6]); // :lcut_freq for IIRBPF
-                double band_width = System.Convert.ToDouble((string)argv[7]); // :hcut_freq for IIRBPF
-                double ripple = System.Convert.ToDouble((string)argv[8]);
-                double scale = System.Convert.ToDouble((string)argv[9]);
-                if (cmd == "OCTBPF")
-                    asio.IIR_OCTBPF(filter_order, center_freq, band_width, ripple, scale, (int)in_ch.type, in_ch.btn_no, (int)out_ch.type, out_ch.btn_no);
-                else
-                    asio.IIR_BPF(filter_order, center_freq, band_width, ripple, scale, (int)in_ch.type, in_ch.btn_no, (int)out_ch.type, out_ch.btn_no);
-                PostCreateSignal(out_ch, cmd + ": in ch=" + in_ch.btn_no.ToString());
-            }
-            else if (cmd == "Wav2chto1ch")
-            {
-                string in_file = (string)argv[1];
-                string out_file = (string)argv[2];
-                int ch_selected = System.Convert.ToInt32((string)argv[3]);
-                WavStream ws = new WavStream(this);
-                ws.Wav2chto1ch_s(in_file, out_file, ch_selected);
-            }
-            //else if (cmd == "SetAmp")
-            //{
-            //    int ch = System.Convert.ToInt32((string)argv[1]);
-            //    double amp = System.Convert.ToDouble((string)argv[2]);
-            //    asio.SetAmp(ch, amp);
-            //}
-            else if (cmd == "ReadWav")
-            {
-                wav_full_path = (string)argv[1];
-                wav_read_ch = (string)argv[2];
-                double start_time = System.Convert.ToDouble((string)argv[3]);
-                double end_time = System.Convert.ToDouble((string)argv[4]);
-                wav_read_point = (int)(start_time * sample_freq);
-                wav_read_length = (int)(end_time * sample_freq);
-                wav_continuous = System.Convert.ToBoolean((string)argv[5]);
-                Read_wav_cmd();
-            }
-            else if (cmd == "RtconvFPGAInit")
-            {
-                int inch = System.Convert.ToInt32((string)argv[1]);
-                int outch = System.Convert.ToInt32((string)argv[2]);
-                String file_path = (string)argv[3];
-                Rtconv_fpga_init(file_path, inch, outch);
-            }
-            else if (cmd == "SPGain")
-            {
-                int current_val = System.Convert.ToInt32((string)argv[1]);
-                asio.spamp_gain_push(current_val);
-                if (asio.get_stop() == true) asio.damp_volume_set(current_val);
-            }
-            else
-            {
-                result = false;
-            }
-
-            return result;
-        }
-
-        //public int Find_asio_ch(string buff_type, int btn_no)
-        //{
-        //    switch (buff_type)
-        //    {
-        //        case "IN":
-        //            return Find_asio_ch(ch_info_in[btn_no - 1]);
-        //        case "OUT":
-        //            return Find_asio_ch(ch_info_out[btn_no - 1]);
-        //        case "WORK":
-        //            return Find_asio_ch(ch_info_work[btn_no - 1]);
-        //    }
-        //    return 0;
-        //}
-
-        //public int Find_asio_ch(ChannelInfo info)
-        //{
-        //    if (info == null) return -1;
-        //    return asio.find_asio_ch((int)info.type, info.btn_no);
-        //}
 
         public ChannelInfo Find_ch_info(string buff_type, int btn_no)
         {
@@ -938,7 +437,6 @@ namespace amt
 
         public void Cnsl_msg(String ss)
         {
-            if (command_mode) return;
             if (this.ConsoleMsg.InvokeRequired)
             {
                 SetTextCallback d = new SetTextCallback(Cnsl_msg);
@@ -989,57 +487,17 @@ namespace amt
             this.menuItem_File = new System.Windows.Forms.MenuItem();
             this.menuItem_workfolder = new System.Windows.Forms.MenuItem();
             this.menuItem_Save = new System.Windows.Forms.MenuItem();
-            this.menuItem1 = new System.Windows.Forms.MenuItem();
-            this.menuItem_read_wav = new System.Windows.Forms.MenuItem();
-            this.menuItem_write_wav = new System.Windows.Forms.MenuItem();
             this.menuItem_Exit = new System.Windows.Forms.MenuItem();
             this.menuItem_Data = new System.Windows.Forms.MenuItem();
             this.menuItem_FFTpoint = new System.Windows.Forms.MenuItem();
-            this.menuItem_ch_assign = new System.Windows.Forms.MenuItem();
-            this.menuItem_clearall = new System.Windows.Forms.MenuItem();
-            this.menuItem_Processing = new System.Windows.Forms.MenuItem();
-            this.menuItem_Conv = new System.Windows.Forms.MenuItem();
-            this.menuItem_DeConv = new System.Windows.Forms.MenuItem();
-            this.menuItem_Add = new System.Windows.Forms.MenuItem();
-            this.menuItem_Mpy = new System.Windows.Forms.MenuItem();
-            this.menuItem_cvt = new System.Windows.Forms.MenuItem();
-            this.menuItem_IIR = new System.Windows.Forms.MenuItem();
             this.menuItem3 = new System.Windows.Forms.MenuItem();
-            this.menuItem_CheckBoSC = new System.Windows.Forms.MenuItem();
-            this.menuItem_rtconv = new System.Windows.Forms.MenuItem();
-            this.menuItem_rtconv_fpga = new System.Windows.Forms.MenuItem();
-            this.menuItem_rtconv_aiao = new System.Windows.Forms.MenuItem();
-            this.menuItem_rtconv_fiao = new System.Windows.Forms.MenuItem();
-            this.menuItem_FileConv = new System.Windows.Forms.MenuItem();
-            this.menuItem_eqtest = new System.Windows.Forms.MenuItem();
-            this.menuItem_amp = new System.Windows.Forms.MenuItem();
             this.menuItem_spgain = new System.Windows.Forms.MenuItem();
-            this.menuItem_micgain = new System.Windows.Forms.MenuItem();
-            this.menuItem_geq = new System.Windows.Forms.MenuItem();
-            this.menuItem_NetPlayer = new System.Windows.Forms.MenuItem();
-            this.menuItem_boscplayer = new System.Windows.Forms.MenuItem();
-            this.menuItem_ARS = new System.Windows.Forms.MenuItem();
-            this.menuItem_evaltest = new System.Windows.Forms.MenuItem();
-            this.menuItem_wavstreaming = new System.Windows.Forms.MenuItem();
-            this.menuItem4 = new System.Windows.Forms.MenuItem();
-            this.menuItem_mover_server = new System.Windows.Forms.MenuItem();
+            this.menuItem_rtconv = new System.Windows.Forms.MenuItem();
             this.menuItem_ueserver = new System.Windows.Forms.MenuItem();
-            this.menuItem_ZYBO = new System.Windows.Forms.MenuItem();
-            this.menuItem5 = new System.Windows.Forms.MenuItem();
-            this.menuItem_afs = new System.Windows.Forms.MenuItem();
-            this.menuItem_IR_Calc = new System.Windows.Forms.MenuItem();
-            this.menuItem_InvSystemDesign = new System.Windows.Forms.MenuItem();
             this.menuItem6 = new System.Windows.Forms.MenuItem();
             this.menuItem8 = new System.Windows.Forms.MenuItem();
             this.menuItem7 = new System.Windows.Forms.MenuItem();
             this.menuItem_ImpMeas = new System.Windows.Forms.MenuItem();
-            this.menuItem_LevelMeter = new System.Windows.Forms.MenuItem();
-            this.menuItem9 = new System.Windows.Forms.MenuItem();
-            this.menuItem_script = new System.Windows.Forms.MenuItem();
-            this.menuItem_scriptRec = new System.Windows.Forms.MenuItem();
-            this.menuItem_scriptRecON = new System.Windows.Forms.MenuItem();
-            this.menuItem_scriptRecOFF = new System.Windows.Forms.MenuItem();
-            this.menuItem_scriptLoad = new System.Windows.Forms.MenuItem();
             this.menuItem_Help = new System.Windows.Forms.MenuItem();
             this.menuItem_Version = new System.Windows.Forms.MenuItem();
             this.ConsoleMsg = new System.Windows.Forms.TextBox();
@@ -1052,9 +510,6 @@ namespace amt
             this.menuItem_clear = new System.Windows.Forms.MenuItem();
             this.menuItem_movef = new System.Windows.Forms.MenuItem();
             this.menuItem_delete = new System.Windows.Forms.MenuItem();
-            this.menuItem_stream = new System.Windows.Forms.MenuItem();
-            this.menuItem_wav_stream = new System.Windows.Forms.MenuItem();
-            this.menuItem_double_stream = new System.Windows.Forms.MenuItem();
             this.menuItem_import = new System.Windows.Forms.MenuItem();
             this.menuItem_wav_import = new System.Windows.Forms.MenuItem();
             this.menuItem_dec_import = new System.Windows.Forms.MenuItem();
@@ -1113,12 +568,9 @@ namespace amt
             this.mainMenu1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItem_File,
             this.menuItem_Data,
-            this.menuItem_Processing,
             this.menuItem3,
-            this.menuItem5,
             this.menuItem6,
             this.menuItem7,
-            this.menuItem_script,
             this.menuItem_Help});
             // 
             // menuItem_File
@@ -1127,7 +579,6 @@ namespace amt
             this.menuItem_File.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItem_workfolder,
             this.menuItem_Save,
-            this.menuItem1,
             this.menuItem_Exit});
             this.menuItem_File.Text = "File";
             // 
@@ -1143,28 +594,9 @@ namespace amt
             this.menuItem_Save.Text = "Save";
             this.menuItem_Save.Click += new System.EventHandler(this.MenuItem_Save_Click);
             // 
-            // menuItem1
-            // 
-            this.menuItem1.Index = 2;
-            this.menuItem1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem_read_wav,
-            this.menuItem_write_wav});
-            this.menuItem1.Text = "Wav";
-            // 
-            // menuItem_read_wav
-            // 
-            this.menuItem_read_wav.Index = 0;
-            this.menuItem_read_wav.Text = "Read";
-            this.menuItem_read_wav.Click += new System.EventHandler(this.MenuItem_read_wav_Click);
-            // 
-            // menuItem_write_wav
-            // 
-            this.menuItem_write_wav.Index = 1;
-            this.menuItem_write_wav.Text = "Write";
-            // 
             // menuItem_Exit
             // 
-            this.menuItem_Exit.Index = 3;
+            this.menuItem_Exit.Index = 2;
             this.menuItem_Exit.Text = "Exit";
             this.menuItem_Exit.Click += new System.EventHandler(this.MenuItem_Exit_Click);
             // 
@@ -1172,9 +604,7 @@ namespace amt
             // 
             this.menuItem_Data.Index = 1;
             this.menuItem_Data.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem_FFTpoint,
-            this.menuItem_ch_assign,
-            this.menuItem_clearall});
+            this.menuItem_FFTpoint});
             this.menuItem_Data.Text = "Set";
             // 
             // menuItem_FFTpoint
@@ -1183,130 +613,14 @@ namespace amt
             this.menuItem_FFTpoint.Text = "FFTpoint";
             this.menuItem_FFTpoint.Click += new System.EventHandler(this.MenuItem_FFTpoint_Click);
             // 
-            // menuItem_ch_assign
-            // 
-            this.menuItem_ch_assign.Index = 1;
-            this.menuItem_ch_assign.Text = "Channel Assign";
-            // 
-            // menuItem_clearall
-            // 
-            this.menuItem_clearall.Index = 2;
-            this.menuItem_clearall.Text = "Clear All";
-            // 
-            // menuItem_Processing
-            // 
-            this.menuItem_Processing.Index = 2;
-            this.menuItem_Processing.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem_Conv,
-            this.menuItem_DeConv,
-            this.menuItem_Add,
-            this.menuItem_Mpy,
-            this.menuItem_cvt,
-            this.menuItem_IIR});
-            this.menuItem_Processing.Text = "Processing";
-            this.menuItem_Processing.Click += new System.EventHandler(this.MenuItem_Processing_Click);
-            // 
-            // menuItem_Conv
-            // 
-            this.menuItem_Conv.Index = 0;
-            this.menuItem_Conv.Text = "Convolution";
-            this.menuItem_Conv.Click += new System.EventHandler(this.MenuItem_Processing_Click);
-            // 
-            // menuItem_DeConv
-            // 
-            this.menuItem_DeConv.Index = 1;
-            this.menuItem_DeConv.Text = "Deconvolution";
-            this.menuItem_DeConv.Click += new System.EventHandler(this.MenuItem_Processing_Click);
-            // 
-            // menuItem_Add
-            // 
-            this.menuItem_Add.Index = 2;
-            this.menuItem_Add.Text = "Add";
-            this.menuItem_Add.Click += new System.EventHandler(this.MenuItem_Processing_Click);
-            // 
-            // menuItem_Mpy
-            // 
-            this.menuItem_Mpy.Index = 3;
-            this.menuItem_Mpy.Text = "Multiply";
-            this.menuItem_Mpy.Click += new System.EventHandler(this.MenuItem_Processing_Click);
-            // 
-            // menuItem_cvt
-            // 
-            this.menuItem_cvt.Index = 4;
-            this.menuItem_cvt.Text = "Wav convert";
-            this.menuItem_cvt.Click += new System.EventHandler(this.MenuItem_cvt_Click);
-            // 
-            // menuItem_IIR
-            // 
-            this.menuItem_IIR.Index = 5;
-            this.menuItem_IIR.Text = "IIR Filter";
-            this.menuItem_IIR.Click += new System.EventHandler(this.MenuItem_IIR_Click);
-            // 
             // menuItem3
             // 
-            this.menuItem3.Index = 3;
+            this.menuItem3.Index = 2;
             this.menuItem3.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem_CheckBoSC,
-            this.menuItem_rtconv,
-            this.menuItem_amp,
-            this.menuItem_NetPlayer,
-            this.menuItem4});
-            this.menuItem3.Text = "BoSC";
-            // 
-            // menuItem_CheckBoSC
-            // 
-            this.menuItem_CheckBoSC.Index = 0;
-            this.menuItem_CheckBoSC.Text = "Check System";
-            this.menuItem_CheckBoSC.Click += new System.EventHandler(this.MenuItem_CheckBoSC_Click);
-            // 
-            // menuItem_rtconv
-            // 
-            this.menuItem_rtconv.Index = 1;
-            this.menuItem_rtconv.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem_rtconv_fpga,
-            this.menuItem_rtconv_aiao,
-            this.menuItem_rtconv_fiao,
-            this.menuItem_FileConv,
-            this.menuItem_eqtest});
-            this.menuItem_rtconv.Text = "Realtime Conv.";
-            // 
-            // menuItem_rtconv_fpga
-            // 
-            this.menuItem_rtconv_fpga.Index = 0;
-            this.menuItem_rtconv_fpga.Text = "Use FPGA";
-            this.menuItem_rtconv_fpga.Click += new System.EventHandler(this.MenuItem_rtconv_fpga_Click);
-            // 
-            // menuItem_rtconv_aiao
-            // 
-            this.menuItem_rtconv_aiao.Index = 1;
-            this.menuItem_rtconv_aiao.Text = "Audio in/Audio out";
-            this.menuItem_rtconv_aiao.Click += new System.EventHandler(this.MenuItem_rtconv_aiao_Click);
-            // 
-            // menuItem_rtconv_fiao
-            // 
-            this.menuItem_rtconv_fiao.Index = 2;
-            this.menuItem_rtconv_fiao.Text = "File in/Audio out";
-            this.menuItem_rtconv_fiao.Click += new System.EventHandler(this.MenuItem_rtconv_fiao_Click);
-            // 
-            // menuItem_FileConv
-            // 
-            this.menuItem_FileConv.Index = 3;
-            this.menuItem_FileConv.Text = "File in/File out";
-            this.menuItem_FileConv.Click += new System.EventHandler(this.MenuItem_FileConv_Click);
-            // 
-            // menuItem_eqtest
-            // 
-            this.menuItem_eqtest.Index = 4;
-            this.menuItem_eqtest.Text = "EQ. test";
-            // 
-            // menuItem_amp
-            // 
-            this.menuItem_amp.Index = 2;
-            this.menuItem_amp.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItem_spgain,
-            this.menuItem_micgain,
-            this.menuItem_geq});
-            this.menuItem_amp.Text = "Controller";
+            this.menuItem_rtconv,
+            this.menuItem_ueserver});
+            this.menuItem3.Text = "BoSC";
             // 
             // menuItem_spgain
             // 
@@ -1314,107 +628,21 @@ namespace amt
             this.menuItem_spgain.Text = "Sp. Amp. Gain";
             this.menuItem_spgain.Click += new System.EventHandler(this.MenuItem_spgain_Click);
             // 
-            // menuItem_micgain
+            // menuItem_rtconv
             // 
-            this.menuItem_micgain.Index = 1;
-            this.menuItem_micgain.Text = "Mic. Amp. Gain";
-            this.menuItem_micgain.Click += new System.EventHandler(this.MenuItem_micamp_Click);
-            // 
-            // menuItem_geq
-            // 
-            this.menuItem_geq.Index = 2;
-            this.menuItem_geq.Text = "Equalizer";
-            this.menuItem_geq.Click += new System.EventHandler(this.MenuItem_geq_Click);
-            // 
-            // menuItem_NetPlayer
-            // 
-            this.menuItem_NetPlayer.Index = 3;
-            this.menuItem_NetPlayer.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem_boscplayer,
-            this.menuItem_ARS,
-            this.menuItem_evaltest,
-            this.menuItem_wavstreaming});
-            this.menuItem_NetPlayer.Text = "Player ";
-            // 
-            // menuItem_boscplayer
-            // 
-            this.menuItem_boscplayer.Index = 0;
-            this.menuItem_boscplayer.Text = "BoSC Player";
-            this.menuItem_boscplayer.Click += new System.EventHandler(this.menuItem_boscplayer_Click);
-            // 
-            // menuItem_ARS
-            // 
-            this.menuItem_ARS.Index = 1;
-            this.menuItem_ARS.Text = "Audio Room Simulator";
-            this.menuItem_ARS.Click += new System.EventHandler(this.menuItem_ARS_Click);
-            // 
-            // menuItem_evaltest
-            // 
-            this.menuItem_evaltest.Index = 2;
-            this.menuItem_evaltest.Text = "Evalation Test";
-            this.menuItem_evaltest.Click += new System.EventHandler(this.menuItem_evaltest_Click);
-            // 
-            // menuItem_wavstreaming
-            // 
-            this.menuItem_wavstreaming.Index = 3;
-            this.menuItem_wavstreaming.Text = "WAV Streaming";
-            this.menuItem_wavstreaming.Click += new System.EventHandler(this.menuItem_wavstreaming_Click);
-            // 
-            // menuItem4
-            // 
-            this.menuItem4.Index = 4;
-            this.menuItem4.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem_mover_server,
-            this.menuItem_ueserver,
-            this.menuItem_ZYBO});
-            this.menuItem4.Text = "Experiments";
-            // 
-            // menuItem_mover_server
-            // 
-            this.menuItem_mover_server.Index = 0;
-            this.menuItem_mover_server.Text = "Mover";
+            this.menuItem_rtconv.Index = 1;
+            this.menuItem_rtconv.Text = "Realtime Conv.";
+            this.menuItem_rtconv.Click += new System.EventHandler(this.MenuItem_rtconv_aiao_Click);
             // 
             // menuItem_ueserver
             // 
-            this.menuItem_ueserver.Index = 1;
+            this.menuItem_ueserver.Index = 2;
             this.menuItem_ueserver.Text = "VR Server";
             this.menuItem_ueserver.Click += new System.EventHandler(this.menuItem_ueserver_Click);
             // 
-            // menuItem_ZYBO
-            // 
-            this.menuItem_ZYBO.Index = 2;
-            this.menuItem_ZYBO.Text = "ZYBO";
-            // 
-            // menuItem5
-            // 
-            this.menuItem5.Index = 4;
-            this.menuItem5.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem_afs,
-            this.menuItem_IR_Calc,
-            this.menuItem_InvSystemDesign});
-            this.menuItem5.Text = "Design";
-            // 
-            // menuItem_afs
-            // 
-            this.menuItem_afs.Index = 0;
-            this.menuItem_afs.Text = "Aftereffect supression";
-            this.menuItem_afs.Click += new System.EventHandler(this.MenuItem_FIRDesign_Click);
-            // 
-            // menuItem_IR_Calc
-            // 
-            this.menuItem_IR_Calc.Index = 1;
-            this.menuItem_IR_Calc.Text = "IR Calculation";
-            this.menuItem_IR_Calc.Click += new System.EventHandler(this.MenuItem_IR_Calc_Click);
-            // 
-            // menuItem_InvSystemDesign
-            // 
-            this.menuItem_InvSystemDesign.Index = 2;
-            this.menuItem_InvSystemDesign.Text = "Inv. System Design";
-            this.menuItem_InvSystemDesign.Click += new System.EventHandler(this.InvSystemDesign_Click);
-            // 
             // menuItem6
             // 
-            this.menuItem6.Index = 5;
+            this.menuItem6.Index = 3;
             this.menuItem6.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItem8});
             this.menuItem6.Text = "Analysis";
@@ -1427,11 +655,9 @@ namespace amt
             // 
             // menuItem7
             // 
-            this.menuItem7.Index = 6;
+            this.menuItem7.Index = 4;
             this.menuItem7.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem_ImpMeas,
-            this.menuItem_LevelMeter,
-            this.menuItem9});
+            this.menuItem_ImpMeas});
             this.menuItem7.Text = "Measurement";
             // 
             // menuItem_ImpMeas
@@ -1440,54 +666,9 @@ namespace amt
             this.menuItem_ImpMeas.Text = "IR Measurement";
             this.menuItem_ImpMeas.Click += new System.EventHandler(this.MenuItem_ImpMeas_Click);
             // 
-            // menuItem_LevelMeter
-            // 
-            this.menuItem_LevelMeter.Index = 1;
-            this.menuItem_LevelMeter.Text = "Level Meter";
-            this.menuItem_LevelMeter.Click += new System.EventHandler(this.MenuItem_LevelMeter_Click);
-            // 
-            // menuItem9
-            // 
-            this.menuItem9.Index = 2;
-            this.menuItem9.Text = "Wave Monitor";
-            // 
-            // menuItem_script
-            // 
-            this.menuItem_script.Index = 7;
-            this.menuItem_script.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem_scriptRec,
-            this.menuItem_scriptLoad});
-            this.menuItem_script.Text = "Script";
-            // 
-            // menuItem_scriptRec
-            // 
-            this.menuItem_scriptRec.Index = 0;
-            this.menuItem_scriptRec.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem_scriptRecON,
-            this.menuItem_scriptRecOFF});
-            this.menuItem_scriptRec.Text = "Rec. : Off";
-            // 
-            // menuItem_scriptRecON
-            // 
-            this.menuItem_scriptRecON.Index = 0;
-            this.menuItem_scriptRecON.Text = "On";
-            this.menuItem_scriptRecON.Click += new System.EventHandler(this.MenuItem_scriptRecON_Click);
-            // 
-            // menuItem_scriptRecOFF
-            // 
-            this.menuItem_scriptRecOFF.Index = 1;
-            this.menuItem_scriptRecOFF.Text = "Off";
-            this.menuItem_scriptRecOFF.Click += new System.EventHandler(this.MenuItem_scriptRecOFF_Click);
-            // 
-            // menuItem_scriptLoad
-            // 
-            this.menuItem_scriptLoad.Index = 1;
-            this.menuItem_scriptLoad.Text = "Load";
-            this.menuItem_scriptLoad.Click += new System.EventHandler(this.MenuItem_scriptLoad_Click);
-            // 
             // menuItem_Help
             // 
-            this.menuItem_Help.Index = 8;
+            this.menuItem_Help.Index = 5;
             this.menuItem_Help.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItem_Version});
             this.menuItem_Help.Text = "Help";
@@ -1526,7 +707,6 @@ namespace amt
             this.menuItem_clear,
             this.menuItem_movef,
             this.menuItem_delete,
-            this.menuItem_stream,
             this.menuItem_import,
             this.menuItem_export,
             this.menuItem_copyfrom,
@@ -1582,27 +762,9 @@ namespace amt
             this.menuItem_delete.Text = "Delete";
             this.menuItem_delete.Click += new System.EventHandler(this.MenuItem_delete_Click);
             // 
-            // menuItem_stream
-            // 
-            this.menuItem_stream.Index = 4;
-            this.menuItem_stream.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem_wav_stream,
-            this.menuItem_double_stream});
-            this.menuItem_stream.Text = "Streaming";
-            // 
-            // menuItem_wav_stream
-            // 
-            this.menuItem_wav_stream.Index = 0;
-            this.menuItem_wav_stream.Text = "wav";
-            // 
-            // menuItem_double_stream
-            // 
-            this.menuItem_double_stream.Index = 1;
-            this.menuItem_double_stream.Text = "double";
-            // 
             // menuItem_import
             // 
-            this.menuItem_import.Index = 5;
+            this.menuItem_import.Index = 4;
             this.menuItem_import.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItem_wav_import,
             this.menuItem_dec_import,
@@ -1629,7 +791,7 @@ namespace amt
             // 
             // menuItem_export
             // 
-            this.menuItem_export.Index = 6;
+            this.menuItem_export.Index = 5;
             this.menuItem_export.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItem_wavs_export,
             this.menuItem_wavf_export,
@@ -1663,7 +825,7 @@ namespace amt
             // 
             // menuItem_copyfrom
             // 
-            this.menuItem_copyfrom.Index = 7;
+            this.menuItem_copyfrom.Index = 6;
             this.menuItem_copyfrom.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItem_copyfrom1,
             this.menuItem_copyfrom2,
@@ -1690,7 +852,7 @@ namespace amt
             // 
             // menuItem_subtract
             // 
-            this.menuItem_subtract.Index = 8;
+            this.menuItem_subtract.Index = 7;
             this.menuItem_subtract.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItem_subtract1,
             this.menuItem_subtract2,
@@ -1717,7 +879,7 @@ namespace amt
             // 
             // menuItem_verify
             // 
-            this.menuItem_verify.Index = 9;
+            this.menuItem_verify.Index = 8;
             this.menuItem_verify.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItem_verify1,
             this.menuItem_verify2,
@@ -1744,7 +906,7 @@ namespace amt
             // 
             // menuItem_divide
             // 
-            this.menuItem_divide.Index = 10;
+            this.menuItem_divide.Index = 9;
             this.menuItem_divide.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItem_divide1,
             this.menuItem_divide2,
@@ -1771,19 +933,19 @@ namespace amt
             // 
             // menuItem_bin_import
             // 
-            this.menuItem_bin_import.Index = 11;
+            this.menuItem_bin_import.Index = 10;
             this.menuItem_bin_import.Text = "Binary Import";
             this.menuItem_bin_import.Click += new System.EventHandler(this.MenuItem_bin_import_Click);
             // 
             // menuItem_wav_conv
             // 
-            this.menuItem_wav_conv.Index = 12;
+            this.menuItem_wav_conv.Index = 11;
             this.menuItem_wav_conv.Text = "Conv. with wav";
             this.menuItem_wav_conv.Click += new System.EventHandler(this.MenuConvWav_Click);
             // 
             // menuItem_adjustamp
             // 
-            this.menuItem_adjustamp.Index = 13;
+            this.menuItem_adjustamp.Index = 12;
             this.menuItem_adjustamp.Text = "Multiply ...";
             this.menuItem_adjustamp.Click += new System.EventHandler(this.MenuItem_multiply_val_Click);
             // 
@@ -2318,23 +1480,7 @@ namespace amt
             {
                 DataCreate(cinfo, ChannelInfo.StreamType.asioin);
                 s.ContextMenu = this.contextMenu1;
-                if (script_recording) MyScripts_Add("data_create", cinfo);
             }
-        }
-        public void MyScripts_Add(string ss1, ChannelInfo cinfo)
-        {
-            myScripts.Add(ss1 + ScriptSeparator + cinfo.GetBufferType() + ScriptSeparator + cinfo.btn_no.ToString());
-        }
-        public void MyScripts_Add2(string ss1, ChannelInfo cinfo1, ChannelInfo cinfo2)
-        {
-            myScripts.Add(ss1 + ScriptSeparator + cinfo1.GetBufferType() + ScriptSeparator + cinfo1.btn_no.ToString()
-                + ScriptSeparator + cinfo2.GetBufferType() + ScriptSeparator + cinfo2.btn_no.ToString());
-        }
-        public void MyScripts_Add3(string ss1, ChannelInfo cinfo1, ChannelInfo cinfo2, ChannelInfo cinfo3)
-        {
-            myScripts.Add(ss1 + ScriptSeparator + cinfo1.GetBufferType() + ScriptSeparator + cinfo1.btn_no.ToString()
-                + ScriptSeparator + cinfo2.GetBufferType() + ScriptSeparator + cinfo2.btn_no.ToString()
-                + ScriptSeparator + cinfo3.GetBufferType() + ScriptSeparator + cinfo3.btn_no.ToString());
         }
         public bool OutBufCreate(ChannelInfo cinfo, ChannelInfo.StreamType type)
         {
@@ -2452,7 +1598,6 @@ namespace amt
             {
                 DataCreate(cinfo, ChannelInfo.StreamType.asioout);
                 s.ContextMenu = this.contextMenu1;
-                if (script_recording) MyScripts_Add("data_create", cinfo);
             }
         }
 
@@ -2473,33 +1618,8 @@ namespace amt
 
         private Thread playstart_thread = null;
         private Thread controlstart_thread = null;
-        private bool net_trig_start_wait = true;
-        private NetworkTcp network_tcp = null;
-
-        public void NetServerStart()
-        {
-            network_tcp = new NetworkTcp(this, ConsoleMsg, new NetworkTcp.ExecCmdDelegate(Exec_cmd_netstart));
-            network_tcp.StartServer(false);
-        }
-        public void NetServerStop()
-        {
-            if (network_tcp != null)
-            {
-                network_tcp.StopServer();
-                network_tcp = null;
-            }
-        }
-        private void Exec_cmd_netstart(string cmd_text)
-        {
-            net_trig_start_wait = false;
-        }
         private void Go_btn_Click(object sender, System.EventArgs e)
         {
-            if (net_trig_start)  // Wait net start
-            {
-                while (net_trig_start_wait) Thread.Sleep(10);
-                net_trig_start_wait = true;
-            }
             if (asio.get_stop() == true)
             {
                 PlayControlStart();
@@ -2542,14 +1662,6 @@ namespace amt
                 else position = asio.getADpoint();
                 adda_point_tb.Value = (int)(pp * (double)position * 100.0);
                 adda_point_lbl.Text = position.ToString();
-                if (show_level_meter)
-                {
-                    levelmeter.Redraw();
-                }
-                if (show_wavemonitor)
-                {
-                    wavemonitor.Redraw();
-                }
                 Write_zitter_level();
                 Thread.Sleep(100);
             }
@@ -2597,7 +1709,6 @@ namespace amt
             }
             ResetButtonStatus(true, true);
 
-            if (script_recording) myScripts.Add("PlayStart");
             menuItem_Exit.Enabled = true;
             this.Invalidate();
 //            return;
@@ -2671,21 +1782,12 @@ namespace amt
             }
         }
 
-        private void MenuItem_Processing_Click(object sender, System.EventArgs e)
-        {
-            MenuItem mm = (MenuItem)sender;
-
-            DSP_Form dsp = new DSP_Form(this, mm.Text);
-            dsp.ShowDialog();
-        }
-
         private void MenuItem_clear_Click(object sender, System.EventArgs e)
         {
             MenuItem s = (MenuItem)sender;
             ContextMenu cm = s.Parent.GetContextMenu();
             ChannelInfo cinfo = Find_ch_info((Button)cm.SourceControl);
             DataClear(cinfo);
-            if (script_recording) MyScripts_Add("Clear", cinfo);
         }
 
         public void OutbufDataClear(ChannelInfo cinfo)
@@ -2744,7 +1846,6 @@ namespace amt
             ChannelInfo cinfo = Find_ch_info((Button)cm.SourceControl);
             int data_no = (int)s.Text[5] - (int)'0';
             SetData(data_no, cinfo);
-            if (script_recording) MyScripts_Add("SetData" + ScriptSeparator + data_no.ToString(), cinfo);
         }
 
         private void MenuItem_delete_Click(object sender, System.EventArgs e)
@@ -2753,7 +1854,6 @@ namespace amt
             ContextMenu cm = s.Parent.GetContextMenu();
             ChannelInfo cinfo = Find_ch_info((Button)cm.SourceControl);
             DataDispose(cinfo);
-            if (script_recording) MyScripts_Add("Delete", cinfo);
         }
 
         public void DataDispose(ChannelInfo cinfo)
@@ -2779,33 +1879,12 @@ namespace amt
             }
         }
 
-        public void WavRead_script(string filename, ChannelInfo cinfo)
-        {
-            WavStream ws = new WavStream(this);
-            if (!ws.WavRead(filename, false)) return;
-            ws.Load_data(cinfo);
-            SetButtonStatus(cinfo, BufferStatus.signal, " was created.");
-            go_btn.Enabled = true;
-            asio.SetMaxVal((int)cinfo.type, cinfo.btn_no);
-        }
-
-        public void WavVerify_script(string filename, ChannelInfo cinfo, int offset)
-        {
-            WavStream ws = new WavStream(this);
-            if (!ws.WavRead(filename, false)) return;
-            double sn = ws.Verify_data(cinfo, offset);
-            Button_status_verify(cinfo.btn, sn);
-            Cnsl_msg("Verify : SN = " + sn.ToString("0.0") + "dB\r\n");
-        }
-
         public void WavRead_menu(string filename, ChannelInfo cinfo)
         {
             WavStream ws = new WavStream(this);
             if (!ws.WavRead(filename, false)) return;
             ws.Load_data(cinfo);
             SetButtonStatus_Signal(cinfo);
-            string filename1 = filename;
-            if (script_recording) MyScripts_Add("WavRead" + ScriptSeparator + filename1, cinfo);
         }
 
         public void TextRead_menu(string filename, ChannelInfo cinfo, bool isHex)
@@ -2814,12 +1893,6 @@ namespace amt
             ws.TextRead(filename, isHex);
             ws.Load_data(cinfo);
             asio.SetMaxVal((int)cinfo.type, cinfo.btn_no);
-            string filename1 = filename;
-            if (script_recording)
-            {
-                string cmd = (isHex ? "HexRead" : "DecRead");
-                MyScripts_Add(cmd + ScriptSeparator + filename1, cinfo);
-            }
         }
 
         public int Max_fftpoint(int leng)
@@ -2836,14 +1909,10 @@ namespace amt
             cdata.ShowDialog();
             fftpoint = System.Convert.ToInt32(this.reply_msg);
             Cnsl_msg("FFT point is changed (" + fftpoint.ToString() + ")\r\n");
-            if (script_recording) myScripts.Add("change_fftpoint" + ScriptSeparator + fftpoint.ToString());
         }
 
         private void MenuItem_Exit_Click(object sender, System.EventArgs e)
         {
-            if (network_tcp != null) network_tcp.StopServer();
-            if (show_level_meter) levelmeter.Close();
-            if (show_wavemonitor) wavemonitor.Close();
             if (show_save) save.Close();
 
             for (int i = 0; i < started_thread_list.Count; i++)
@@ -2859,7 +1928,6 @@ namespace amt
             asio.Dispose();
             //            Cnsl_msg("ASIO exit\r\n");
 
-            if (greq != null) greq.Dispose();
             if (sp_amp_set != null) sp_amp_set.Dispose();
 
             this.Dispose();
@@ -2948,11 +2016,7 @@ namespace amt
 
             if (fd.SaveFileDialog("wav(int) export file", "wav"))
             {
-                bool succeed = WavExport(fd.filename, cinfo, false);
-                if (succeed && script_recording)
-                {
-                    MyScripts_Add("WavExport" + ScriptSeparator + fd.filename, cinfo);
-                }
+                WavExport(fd.filename, cinfo, false);
             }
         }
 
@@ -2964,11 +2028,7 @@ namespace amt
 
             if (fd.SaveFileDialog("wav(float) export file", "wav"))
             {
-                bool succeed = WavExport(fd.filename, cinfo, true);
-                if (succeed && script_recording)
-                {
-                    MyScripts_Add("WavExport" + ScriptSeparator + fd.filename, cinfo);
-                }
+                WavExport(fd.filename, cinfo, true);
             }
         }
 
@@ -2982,13 +2042,6 @@ namespace amt
             cdata.ShowDialog();
             int leng = System.Convert.ToInt32(this.reply_msg);
             asio.move_forward((int)cinfo.type, cinfo.btn_no, leng);
-            if (script_recording) MyScripts_Add("move_forward" + ScriptSeparator + leng.ToString(), cinfo);
-        }
-
-        private void MenuItem_IIR_Click(object sender, System.EventArgs e)
-        {
-            IIRFilter iirfilter = new IIRFilter(this);
-            iirfilter.ShowDialog();
         }
 
         private void MenuItem_Version_Click(object sender, System.EventArgs e)
@@ -3036,7 +2089,6 @@ namespace amt
             {
                 asio.CopyData((int)src_cinfo.type, src_cinfo.btn_no, (int)dst_cinfo.type, dst_cinfo.btn_no);
                 Cnsl_msg("Copy : src ch=" + src_cinfo.type.ToString() + ", " + src_cinfo.btn_no.ToString() + ", dst ch=" + dst_cinfo.type.ToString() + ", " + dst_cinfo.btn_no.ToString() + "\r\n");
-                if (script_recording) MyScripts_Add2("Copy", src_cinfo, dst_cinfo);
             }
         }
 
@@ -3079,7 +2131,6 @@ namespace amt
             {
                 asio.SubData((int)src_cinfo.type, src_cinfo.btn_no, (int)dst_cinfo.type, dst_cinfo.btn_no);
                 Cnsl_msg("Subtract : src ch=" + src_cinfo.type.ToString() + ", " + src_cinfo.btn_no.ToString() + ", dst ch=" + dst_cinfo.type.ToString() + ", " + dst_cinfo.btn_no.ToString() + "\r\n");
-                if (script_recording) MyScripts_Add2("Subtract", src_cinfo, dst_cinfo);
             }
         }
 
@@ -3090,7 +2141,6 @@ namespace amt
             {
                 val = asio.Verify((int)src_cinfo.type, src_cinfo.btn_no, (int)dst_cinfo.type, dst_cinfo.btn_no);
                 Cnsl_msg("Verify : " + val.ToString("0.0") + " dB, src ch=" + src_cinfo.type.ToString() + ", " + src_cinfo.btn_no.ToString() + ", dst ch=" + dst_cinfo.type.ToString() + ", " + dst_cinfo.btn_no.ToString() + "\r\n");
-                if (script_recording) MyScripts_Add2("Verify", src_cinfo, dst_cinfo);
             }
             return val;
         }
@@ -3134,7 +2184,6 @@ namespace amt
             {
                 asio.DivData((int)src_cinfo.type, src_cinfo.btn_no, (int)dst_cinfo.type, dst_cinfo.btn_no, fftpoint);
                 Cnsl_msg("Divide : src ch=" + src_cinfo.type.ToString() + ", " + src_cinfo.btn_no.ToString() + ", dst ch=" + dst_cinfo.type.ToString() + ", " + dst_cinfo.btn_no.ToString() + ": fftpnt=" + fftpoint.ToString() + "\r\n");
-                if (script_recording) MyScripts_Add2("Divide" + ScriptSeparator + fftpoint.ToString(), src_cinfo, dst_cinfo);
             }
         }
 
@@ -3168,33 +2217,7 @@ namespace amt
 
         public double BufConvolution(ChannelInfo in_ch1, ChannelInfo in_ch2, ChannelInfo out_ch, double scale, double freq_st, double freq_ed)
         {
-            double new_scale = asio.Convolution((int)in_ch1.type, in_ch1.btn_no, (int)in_ch2.type, in_ch2.btn_no, (int)out_ch.type, out_ch.btn_no, fftpoint, scale, freq_st, freq_ed);
-            if (script_recording)
-            {
-                MyScripts_Add3("Convolution" + ScriptSeparator + fftpoint.ToString() + ScriptSeparator + scale.ToString()
-                    + ScriptSeparator + freq_st.ToString() + ScriptSeparator + freq_ed.ToString(), in_ch1, in_ch2, out_ch);
-            }
-            return new_scale;
-        }
-
-        public void BufDeconvolution(ChannelInfo in_ch1, ChannelInfo in_ch2, ChannelInfo out_ch)
-        {
-            BufDeconvolution(in_ch1, in_ch2, out_ch, 1.0, 0.0, (double)(sample_freq / 2));
-        }
-
-        public void BufDeconvolution(ChannelInfo in_ch1, ChannelInfo in_ch2, ChannelInfo out_ch, double scale, double freq_st, double freq_ed)
-        {
-            double new_scale = asio.Deconvolution((int)in_ch1.type, in_ch1.btn_no, (int)in_ch2.type, in_ch2.btn_no, (int)out_ch.type, out_ch.btn_no, fftpoint, scale, freq_st, freq_ed);
-            if (new_scale < 1.0)
-            {
-                double nn = new_scale * scale;
-                System.Windows.Forms.MessageBox.Show("Overflow in Deconvolution: scale should be " + nn.ToString());
-            }
-            else if (script_recording)
-            {
-                MyScripts_Add3("Deconvolution" + ScriptSeparator + fftpoint.ToString() + ScriptSeparator + scale.ToString()
-                    + ScriptSeparator + freq_st.ToString() + ScriptSeparator + freq_ed.ToString(), in_ch1, in_ch2, out_ch);
-            }
+            return asio.Convolution((int)in_ch1.type, in_ch1.btn_no, (int)in_ch2.type, in_ch2.btn_no, (int)out_ch.type, out_ch.btn_no, fftpoint, scale, freq_st, freq_ed);
         }
 
         private void MenuConvWav_Click(object sender, System.EventArgs e)
@@ -3231,7 +2254,6 @@ namespace amt
             }
 
             WavConvolution(cinfo, open_file, fd.filename);
-            if (script_recording) MyScripts_Add("WavConvolution" + ScriptSeparator + open_file + ScriptSeparator + fd.filename, cinfo);
         }
 
         public void WavConvolution(ChannelInfo filt_ch, string in_file, string out_file)
@@ -3277,78 +2299,6 @@ namespace amt
             outfs.Close();
         }
 
-        private void MenuItem_scriptLoad_Click(object sender, System.EventArgs e)
-        {
-            if (script_count >= max_script_count) return;
-            if (fd.OpenFileDialog("Script Load", "*.txt"))
-            {
-                string script_fullpath = fd.filename;
-                script_folder = System.IO.Path.GetDirectoryName(script_fullpath);
-                Script newScript = new Script(this);
-                if (newScript.LoadScript(script_fullpath) == false)
-                {
-                    return;
-                }
-                myScriptArray[script_count] = newScript;
-
-                System.Windows.Forms.MenuItem menuItem_newscript;
-                menuItem_newscript = new System.Windows.Forms.MenuItem();
-                menuItem_script.MenuItems.Add(menuItem_script.MenuItems.Count, menuItem_newscript);
-
-                menuItem_newscript.Shortcut = shortcuts[script_count];
-                menuItem_newscript.Text = newScript.script_name + " (" + shortcutName[script_count] + ")";
-                menuItem_newscript.Click += new System.EventHandler(this.MenuItem_scriptPlay_Click);
-
-                script_count++;
-            }
-        }
-
-        public EscKeyForm esc_key_form = null;
-        private void MenuItem_scriptPlay_Click(object sender, System.EventArgs e)
-        {
-            System.Windows.Forms.MenuItem menu = (System.Windows.Forms.MenuItem)sender;
-            Script theScript = myScriptArray[menu.Index - script_count_init];
-            Thread st = new Thread(new ThreadStart(theScript.ExecScript))
-            {
-                Name = "ExecScript"
-            };
-            st.Start();
-            esc_key_form = new EscKeyForm(this, theScript.script_name);
-            esc_key_form.ShowDialog();
-        }
-
-        public void CloseEscKey()
-        {
-            if (esc_key_form != null)
-            {
-                esc_key_form.Close();
-                esc_key_form = null;
-            }
-        }
-
-        private void MenuItem_scriptRecON_Click(object sender, EventArgs e)
-        {
-            script_recording = true;
-            menuItem_scriptRec.Text = "Rec. : On";
-            SetScriptLabel();
-        }
-
-        private void MenuItem_scriptRecOFF_Click(object sender, EventArgs e)
-        {
-            script_recording = false;
-            menuItem_scriptRec.Text = "Rec. : Off";
-            SetScriptLabel();
-            if (fd.SaveFileDialog("Save script file", "txt"))
-            {
-                myScripts.SaveScript(fd.filename);
-            }
-        }
-
-        public void SetScriptLabel()
-        {
-            Cnsl_msg(menuItem_scriptRec.Text + "\r\n");
-        }
-
         private void MenuItem_multiply_val_Click(object sender, EventArgs e)
         {
             MenuItem s = (MenuItem)sender;
@@ -3359,7 +2309,6 @@ namespace amt
             cdata.ShowDialog();
             double val = System.Convert.ToDouble(this.reply_msg);
             asio.MultiplyValue((int)cinfo.type, cinfo.btn_no, val);
-            if (script_recording) MyScripts_Add("Mltiply value" + ScriptSeparator + val.ToString(), cinfo);
         }
 
         private void Adda_point_tb_Scroll(object sender, EventArgs e)
@@ -3378,11 +2327,6 @@ namespace amt
             if (fd.SaveFileDialog("Dec export file", "txt"))
             {
                 TextExport(fd.filename, cinfo, false);
-                if (script_recording)
-                {
-                    string filename = fd.filename;
-                    MyScripts_Add("DecExport" + ScriptSeparator + filename, cinfo);
-                }
             }
         }
 
@@ -3395,11 +2339,6 @@ namespace amt
             if (fd.SaveFileDialog("Hex export file", "txt"))
             {
                 TextExport(fd.filename, cinfo, true);
-                if (script_recording)
-                {
-                    string filename = fd.filename;
-                    MyScripts_Add("HexExport" + ScriptSeparator + filename, cinfo);
-                }
             }
         }
 
@@ -3468,22 +2407,10 @@ namespace amt
             revtime.ShowDialog();
         }
 
-        private void MenuItem_cvt_Click(object sender, EventArgs e)
-        {
-            WavConvert wav_cvt = new WavConvert(this);
-            wav_cvt.ShowDialog();
-        }
-
         private void MenuItem_ImpMeas_Click(object sender, EventArgs e)
         {
             ImpMeasForm imp_meas = new ImpMeasForm(this);
             imp_meas.ShowDialog();
-        }
-
-        private void MenuItem_CheckBoSC_Click(object sender, EventArgs e)
-        {
-            CheckSystemForm check_system = new CheckSystemForm(this);
-            check_system.ShowDialog();
         }
 
         public bool Set_work_folder()
@@ -3519,59 +2446,6 @@ namespace amt
                 stream_hhmmss_lbl.Text = total_hour.ToString() + ":" + min.ToString() + ":" + sec.ToString();
             }
         }
-        private LevelMeter levelmeter = null;
-        private bool show_level_meter = false;
-
-        private void MenuItem_LevelMeter_Click(object sender, EventArgs e)
-        {
-            Thread levelmeter_thread = new Thread(new ThreadStart(LevelMeterShow))
-            {
-                Priority = ThreadPriority.Lowest,
-                Name = "LevelMeterShow"
-            };
-            levelmeter_thread.Start();
-        }
-
-        private void LevelMeterShow()
-        {
-            levelmeter = new LevelMeter(this);
-            show_level_meter = true;
-            levelmeter.ShowDialog();
-            show_level_meter = false;
-        }
-        private WaveMonitorForm wavemonitor = null;
-        public bool show_wavemonitor = false;
-
-        private void MenuItem_waveMonitor_Click(object sender, EventArgs e)
-        {
-            Thread wavemonitor_thread = new Thread(new ThreadStart(WaveMonitorShow))
-            {
-                Priority = ThreadPriority.Lowest,
-                Name = "WaveMonitorShow"
-            };
-            wavemonitor_thread.Start();
-        }
-
-        private void WaveMonitorShow()
-        {
-            wavemonitor = new WaveMonitorForm(this);
-            show_wavemonitor = true;
-            if (show_level_meter)
-            {
-                levelmeter.open_wavemonitor(true);
-            }
-            wavemonitor.ShowDialog();
-            if (show_level_meter)
-            {
-                levelmeter.open_wavemonitor(false);
-            }
-            show_wavemonitor = false;
-        }
-
-        public string WaveMonitorInfo(ChannelInfo cinfo)
-        {
-            return cinfo.max_freq.ToString("0.0") + "Hz : " + cinfo.max_level.ToString("0.0") + "dB";
-        }
 
         private SaveForm save = null;
         private bool show_save = false;
@@ -3598,26 +2472,6 @@ namespace amt
             Set_work_folder();
         }
 
-        private void MenuItem_IR_Calc_Click(object sender, EventArgs e)
-        {
-            IR_Calc ir_calc = new IR_Calc(this);
-            ir_calc.ShowDialog();
-        }
-
-        private void InvSystemDesign_Click(object sender, EventArgs e)
-        {
-            MakeInv mkinv = new MakeInv(this);
-            mkinv.ShowDialog();
-        }
-
-        //private void MenuItem_ch_assign_Click(object sender, EventArgs e)
-        //{
-        //    AssignCh assign_ch = new AssignCh(this);
-        //    assign_ch.ShowDialog();
-
-        //    Create_ch_info();
-        //    Reset_inout_btn();
-        //}
 
         public int[] Text2intarray(string tt)
         {
@@ -3664,81 +2518,6 @@ namespace amt
                 if (sample_freq < 0) asio_error_exit();
             }
             Cnsl_msg("Sampling Freq. [Hz] = " + sample_freq.ToString() + "\r\n");
-        }
-
-        private void MenuItem_FIRDesign_Click(object sender, EventArgs e)
-        {
-            if (pwave == null)
-            {
-                pwave = new ProcessWave(this);
-            }
-            if (pwave.success)
-            {
-                pwave.ShowDialog();
-            }
-            else
-            {
-                MessageBox.Show(pwave.message);
-            }
-        }
-
-        public string wav_full_path = "";
-        public string wav_read_ch;
-        public int wav_read_point;
-        public int wav_read_length;
-        public bool wav_continuous;
-
-        private void MenuItem_read_wav_Click(object sender, EventArgs e)
-        {
-            WavFileForm wavFileForm = new WavFileForm(this);
-            wavFileForm.ShowDialog();
-            if (wav_full_path != "")
-            {
-                string ch_list = wav_read_ch.Replace(" ", "");
-                Read_wav_cmd();
-                if (script_recording) myScripts.Add("ReadWav" + ScriptSeparator + wav_full_path + ScriptSeparator + ch_list + ScriptSeparator + wav_read_point.ToString() + ScriptSeparator + wav_read_length.ToString() + ScriptSeparator + wav_continuous.ToString());
-            }
-        }
-        public void Read_wav_cmd()
-        {
-            WavStream ws = new WavStream(this);
-            if (!ws.WavRead(wav_full_path, false)) return;
-            int[] wav_read_ch_list = Text2intarray(wav_read_ch);
-            if (wav_read_length > ws.WordCount())
-            {
-                wav_read_length = ws.WordCount();
-            }
-            if (wav_read_point + wav_read_length > asio.GetDataLength())
-            {
-                wav_read_length = asio.GetDataLength() - wav_read_point;
-            }
-            if (wav_continuous)
-            {
-                int lll = wav_read_length / wav_read_ch_list.Length;
-                int ppp = wav_read_point;
-
-                for (int ii = 0; ii < wav_read_ch_list.Length; ii++)
-                {
-                    int ch = wav_read_ch_list[ii];
-                    ChannelInfo cinfo = Find_ch_info("OUT", ch);
-                    ws.Load_data1(cinfo, ppp, lll);
-                    SetButtonStatus(cinfo, BufferStatus.signal, " was created.");
-                    asio.SetMaxVal((int)cinfo.type, cinfo.btn_no);
-                    ppp += lll;
-                }
-            }
-            else
-            {
-                for (int ii = 0; ii < wav_read_ch_list.Length; ii++)
-                {
-                    int ch = wav_read_ch_list[ii];
-                    ChannelInfo cinfo = Find_ch_info("OUT", ch);
-                    ws.Load_data1(cinfo, wav_read_point, wav_read_length);
-                    SetButtonStatus(cinfo, BufferStatus.signal, " was created.");
-                    asio.SetMaxVal((int)cinfo.type, cinfo.btn_no);
-                }
-            }
-            go_btn.Enabled = true;
         }
 
         private void MenuItem_verify1_Click(object sender, EventArgs e)
@@ -3790,21 +2569,9 @@ namespace amt
             }
         }
 
-        private void MenuItem_micamp_Click(object sender, EventArgs e)
-        {
-            SetMicAmpForm mic_amp_set = new SetMicAmpForm(this);
-            mic_amp_set.ShowDialog();
-        }
-
         private void Set_asio_mode(ASIOmode asio_mode)
         {
             asio.push_asio_mode((int)asio_mode);
-        }
-
-        private void MenuItem_FileConv_Click(object sender, EventArgs e)
-        {
-            file_conv = new FileConvForm(this);
-            file_conv.ShowDialog();
         }
 
         private void MenuItem_spgain_Click(object sender, EventArgs e)
@@ -3823,231 +2590,6 @@ namespace amt
             sp_amp_set = new SPGainForm(this);
             sp_amp_set.ShowDialog();
             sp_amp_set = null;
-        }
-
-        public GrphEqForm greq = null;
-        private void Greq_go()
-        {
-            greq = new GrphEqForm(this, convset!=null);
-            greq.ShowDialog();
-            greq = null;
-        }
-
-        private void MenuItem_rtconv_fpga_Click(object sender, EventArgs e)
-        {
-            int rtconv_inch = 1;
-            int rtconv_outch = 96;
-            string file_path = "";
-            if (fd.OpenFileDialog("Conv source", "*.wav"))
-            {
-                string filename = fd.filename;
-                file_path = filename.Remove(filename.Length - 11);
-                string filename2 = "";
-                for (int ich = 1; ich <= rtconv_inch; ich++)
-                {
-                    for (int och = 1; och <= rtconv_outch; och++)
-                    {
-                        filename2 = file_path + ich.ToString("000") + "_" + och.ToString("000") + ".wav";
-                        if (!FileProcess.Exists(filename2))
-                        {
-                            string message = "�t�@�C��������܂���B : " + filename2;
-                            MessageBox.Show(message, "�G���[", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-                    }
-                }
-            }
-            if (!Rtconv_fpga_init(file_path, rtconv_inch, rtconv_outch))
-            {
-                string message = "FPGA initialize : ";
-                MessageBox.Show(message, "�G���[", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private const int fpga_fir_tap = 1071;
-        public bool Rtconv_fpga_init(String file_path, int rtconv_inch, int rtconv_outch)
-        {
-            bool check_ok = true;
-            int fpga_set_ch = 62;   // FX(1) 62ch-->RX1 FPGA(B)
-            if (rtconv_inch != 1) return false;
-
-            string reload_order_file = Application.StartupPath + "\\fir3_reload_order.txt";
-            StreamReader sr = new StreamReader(reload_order_file);
-            string line;
-            ArrayList reload_order = null;
-            reload_order = new ArrayList();
-            int cnt = 0;
-
-            while ((line = sr.ReadLine()) != null)
-            {
-                string[] strs = line.Split(' ');
-                int index = int.Parse(strs[2]);
-                int coef_no = int.Parse(strs[5]);
-                if (cnt == index)
-                {
-                    reload_order.Add(coef_no);
-                    cnt++;
-                }
-            }
-
-            float[] data1 = new float[rtconv_outch * fpga_fir_tap];
-
-            for (int och = 1; och <= rtconv_outch; och++)
-            {
-                string filename2 = file_path + "001_" + och.ToString("000") + ".wav";
-                WavStream ws = new WavStream(this);
-                check_ok = ws.WavHeaderCheck(filename2);
-                int word_cnt = ws.WordCount();
-                if (word_cnt < fpga_fir_tap)
-                {
-                    Cnsl_msg("Error: Too small word count\n");
-                    return false;
-                }
-                check_ok = ws.WavRead1ch(filename2, fpga_fir_tap);
-                if (check_ok)
-                {
-                    ws.Get_data_3d(ref data1, och, fpga_fir_tap, reload_order);
-                }
-                else
-                {
-                    Cnsl_msg("Error: WavRead1ch\n");
-                    return false;
-                }
-            }
-
-            int och1 = rtconv_outch, och2 = 0;
-            if (och1 > 48)
-            {
-                och2 = och1 - 48;
-                och1 = 48;
-            }
-            unsafe
-            {
-                fixed (float* dd = data1)
-                {
-                    asio.rtconv_fpga_set(fpga_set_ch, dd, och1, fpga_fir_tap);
-                    asio.rtconv_fpga_set(fpga_set_ch + 64, &dd[48 * fpga_fir_tap], och2, fpga_fir_tap);
-                }
-            }
-
-            if (script_recording) myScripts.Add("RtconvFPGAInit" + ScriptSeparator + rtconv_inch.ToString() + ScriptSeparator + rtconv_outch.ToString() + ScriptSeparator + file_path);
-            return true;
-        }
-
-        public string Out_filename(int och)
-        {
-            string num_str_och = "", file_path2;
-            if (out_no_digit == 1) num_str_och = och.ToString("0");
-            else if (out_no_digit == 2) num_str_och = och.ToString("00");
-            else if (out_no_digit == 3) num_str_och = och.ToString("000");
-            file_path2 = out_file_path + num_str_och + "." + out_ext;
-            return file_path2;
-        }
-
-        private int out_no_digit = 0;
-        public string out_file_path = "";
-        private string out_ext = "";
-        public bool Get_outpath_wav001(string fname)
-        {
-            char[] separator = new char[1] { '.' };
-            string filename = fname;
-            if(filename == "")
-            {
-                if (fd.SaveFileDialog("File convolution", "wav"))
-                {
-                    filename = fd.filename;
-                }
-                else return false;
-            }
-            string[] filename1 = filename.Split(separator);
-            int ii = filename1.Count();
-            out_ext = filename1[ii - 1];
-            int digit_point = 0;
-            if ((digit_point = filename.IndexOf("001")) >= 0) out_no_digit = 3;
-            else if ((digit_point = filename.IndexOf("01")) >= 0) out_no_digit = 2;
-            else if ((digit_point = filename.IndexOf("1")) >= 0) out_no_digit = 1;
-            else
-            {
-                out_no_digit = 0;
-                return false;
-            }
-            out_file_path = filename.Remove(digit_point);
-            return true;
-        }
-
-        private void Convset_go()
-        {
-            if (convset_fileinput)
-            {
-                Set_asio_mode(Amt.ASIOmode.asiomode_stream_in_rtconv_out);
-            }
-            else
-            {
-                Set_asio_mode(Amt.ASIOmode.asiomode_rtconv_io);
-            }
-
-            convset = new ConvSet(this, convset_fileinput);
-            convset.ShowDialog();
-            convset = null;
-        }
-
-        private void MenuItem_rtconv_aiao_Click(object sender, EventArgs e)
-        {
-            convset_fileinput = false;
-            if (convset == null)
-            {
-                Thread st = new Thread(new ThreadStart(Convset_go))
-                {
-                    Name = "convset_go"
-                };
-                st.Start();
-                started_thread_list.Add(st);
-                while (convset == null || convset.Visible == false)
-                {
-                    Thread.Sleep(10);
-                }
-                convset.Location = new Point(this.Location.X + this.Size.Width/2, this.Location.Y + 50);
-            }
-            if(sp_amp_set == null)
-            {
-                Thread st1 = new Thread(new ThreadStart(Spgain))
-                {
-                    Name = "spgain"
-                };
-                st1.Start();
-                started_thread_list.Add(st1);
-                while (sp_amp_set == null || sp_amp_set.Visible == false) Thread.Sleep(10);
-                sp_amp_set.Location = new Point(this.Location.X + this.Size.Width / 2 + convset.Size.Width - 15 , this.Location.Y + 50);
-            }
-            //if (greq == null)
-            //{
-            //    Thread st1 = new Thread(new ThreadStart(greq_go));
-            //    st1.Start();
-            //    started_thread_list.Add(st1);
-            //    while (greq == null || greq.Visible == false) Thread.Sleep(10);
-            //    greq.Location = new Point(this.Location.X + 30, this.Location.Y + 94);
-            //}
-        }
-
-        private void MenuItem_rtconv_fiao_Click(object sender, EventArgs e)
-        {
-            convset_fileinput = true;
-            Thread st = new Thread(new ThreadStart(Convset_go))
-            {
-                Name = "convset_go"
-            };
-            st.Start();
-            started_thread_list.Add(st);
-        }
-
-        private void MenuItem_geq_Click(object sender, EventArgs e)
-        {
-            Thread st = new Thread(new ThreadStart(Greq_go))
-            {
-                Name = "greq_go"
-            };
-            st.Start();
-            started_thread_list.Add(st);
         }
 
 #if _DEBUG
@@ -4073,24 +2615,41 @@ namespace amt
         }
 #endif
 
-        private void menuItem_ARS_Click(object sender, EventArgs e)
+        private void Convset_go()
         {
-            if (in_btn_cnt < 2)
-            {
-                string message = "Input channel (" + in_btn_cnt.ToString() + ") must not less than 2.";
-                MessageBox.Show(message, "�G���[", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            Set_asio_mode(ASIOmode.asiomode_stream_in_rtconv_out);
-            NetPlayer netPlayer = new NetPlayer(this);
-            netPlayer.ShowDialog();
+            Set_asio_mode(Amt.ASIOmode.asiomode_rtconv_io);
+            convset = new ConvSet(this, false);
+            convset.ShowDialog();
+            convset = null;
         }
 
-        private void menuItem_evaltest_Click(object sender, EventArgs e)
+        private void MenuItem_rtconv_aiao_Click(object sender, EventArgs e)
         {
-            Set_asio_mode(ASIOmode.asiomode_stream_out);
-            EvalTest evalTest = new EvalTest(this);
-            evalTest.ShowDialog();
+            if (convset == null)
+            {
+                Thread st = new Thread(new ThreadStart(Convset_go))
+                {
+                    Name = "convset_go"
+                };
+                st.Start();
+                started_thread_list.Add(st);
+                while (convset == null || convset.Visible == false)
+                {
+                    Thread.Sleep(10);
+                }
+                convset.Location = new Point(this.Location.X + this.Size.Width/2, this.Location.Y + 50);
+            }
+            if(sp_amp_set == null)
+            {
+                Thread st1 = new Thread(new ThreadStart(Spgain))
+                {
+                    Name = "spgain"
+                };
+                st1.Start();
+                started_thread_list.Add(st1);
+                while (sp_amp_set == null || sp_amp_set.Visible == false) Thread.Sleep(10);
+                sp_amp_set.Location = new Point(this.Location.X + this.Size.Width / 2 + convset.Size.Width - 15 , this.Location.Y + 50);
+            }
         }
 
         private void menuItem_ueserver_Click(object sender, EventArgs e)
@@ -4098,30 +2657,6 @@ namespace amt
             Set_asio_mode(ASIOmode.asiomode_rtmove);
             UEServerForm ueserver = new UEServerForm(this);
             ueserver.ShowDialog();
-        }
-
-        private void menuItem_mover_server_Click(object sender, EventArgs e)
-        {
-            MoverForm mover = new MoverForm(this);
-            mover.ShowDialog();
-        }
-
-        private void menuItem_ZYBO_Click(object sender, EventArgs e)
-        {
-            ZyboForm zybo = new ZyboForm(this);
-            zybo.ShowDialog();
-        }
-
-        private void menuItem_boscplayer_Click(object sender, EventArgs e)
-        {
-            BoscPlayer boscPlayer = new BoscPlayer(this);
-            boscPlayer.ShowDialog();
-        }
-
-        private void menuItem_wavstreaming_Click(object sender, EventArgs e)
-        {
-            StreamingForm streamingForm = new StreamingForm(this);
-            streamingForm.ShowDialog();
         }
     }
 

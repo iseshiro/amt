@@ -164,11 +164,6 @@ namespace amt
                     string[] sr2 = sr.Split('=');
                     parent.assign_out_ch = sr2[1].Trim();
                 }
-                else if (sr.IndexOf("script_folder") == 0)
-                {
-                    string[] sr2 = sr.Split('=');
-                    parent.script_folder = sr2[1].Trim();
-                }
                 else if (sr.IndexOf("data_length") == 0)
                 {
                     string[] sr2 = sr.Split('=');
@@ -242,7 +237,6 @@ namespace amt
                 {
                     myStreamWriter.WriteLine("assign_ch = false");
                 }
-                myStreamWriter.WriteLine("script_folder = {0}", parent.script_folder);
                 myStreamWriter.WriteLine("filter_db_file = {0}", parent.filter_db_file);
                 myStreamWriter.WriteLine("song_db_file = {0}", parent.song_db_file);
                 myStreamWriter.WriteLine("contents_db_file = {0}", parent.contents_db_file);

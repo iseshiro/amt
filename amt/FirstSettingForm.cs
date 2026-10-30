@@ -8,13 +8,13 @@ using System.Windows.Forms;
 namespace amt
 {
 	/// <summary>
-	/// CreateDataForm ‚ÌŠT—v‚Ìà–¾‚Å‚·B
+	/// CreateDataForm ï¿½ÌŠTï¿½vï¿½Ìï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½B
 	/// </summary>
 	public class FirstSettingForm : System.Windows.Forms.Form
 	{
         private System.Windows.Forms.Button ok_button;
         /// <summary>
-        /// •K—v‚ÈƒfƒUƒCƒi•Ï”‚Å‚·B
+        /// ï¿½Kï¿½vï¿½Èƒfï¿½Uï¿½Cï¿½iï¿½Ïï¿½ï¿½Å‚ï¿½ï¿½B
         /// </summary>
         private System.ComponentModel.Container components = null;
         private System.Windows.Forms.Label data_length_lbl;
@@ -83,7 +83,7 @@ namespace amt
         }
 
         /// <summary>
-        /// g—p‚³‚ê‚Ä‚¢‚éƒŠƒ\[ƒX‚ÉŒãˆ—‚ğÀs‚µ‚Ü‚·B
+        /// ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½éƒŠï¿½\ï¿½[ï¿½Xï¿½ÉŒãˆï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
         /// </summary>
         protected override void Dispose(bool disposing)
         {
@@ -97,10 +97,10 @@ namespace amt
             base.Dispose(disposing);
         }
 
-        #region Windows ƒtƒH[ƒ€ ƒfƒUƒCƒi‚Å¶¬‚³‚ê‚½ƒR[ƒh
+        #region Windows ï¿½tï¿½Hï¿½[ï¿½ï¿½ ï¿½fï¿½Uï¿½Cï¿½iï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Rï¿½[ï¿½h
         /// <summary>
-        /// ƒfƒUƒCƒi ƒTƒ|[ƒg‚É•K—v‚Èƒƒ\ƒbƒh‚Å‚·B‚±‚Ìƒƒ\ƒbƒh‚Ì“à—e‚ğ
-        /// ƒR[ƒh ƒGƒfƒBƒ^‚Å•ÏX‚µ‚È‚¢‚Å‚­‚¾‚³‚¢B
+        /// ï¿½fï¿½Uï¿½Cï¿½i ï¿½Tï¿½|ï¿½[ï¿½gï¿½É•Kï¿½vï¿½Èƒï¿½ï¿½\ï¿½bï¿½hï¿½Å‚ï¿½ï¿½Bï¿½ï¿½ï¿½Ìƒï¿½ï¿½\ï¿½bï¿½hï¿½Ì“ï¿½ï¿½eï¿½ï¿½
+        /// ï¿½Rï¿½[ï¿½h ï¿½Gï¿½fï¿½Bï¿½^ï¿½Å•ÏXï¿½ï¿½ï¿½È‚ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
         /// </summary>
         private void InitializeComponent()
         {
@@ -592,10 +592,10 @@ namespace amt
                         else
                         {
                             parent.Cnsl_msg("Found ASIO Driver: " + driver + "\r\n");
-                            asio_driver_list_cb.Items.Add(driver);
+                            int item_no = asio_driver_list_cb.Items.Add(driver);
                             if (driver == parent.selected_driver_name)
                             {
-                                drv_no = i;
+                                drv_no = item_no;
                             }
                         }
                     }
@@ -609,6 +609,12 @@ namespace amt
                         set_without_asio(false);
                     }
                 }
+            }
+            // No usable ASIO driver: force "Without ASIO" and lock the checkbox.
+            if (asio_driver_list_cb.Items.Count == 0)
+            {
+                set_without_asio(true);
+                without_asio_cb.Enabled = false;
             }
         }
 

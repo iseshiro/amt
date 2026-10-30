@@ -245,15 +245,6 @@ namespace amt
 				dleng=word_count;
 			}
 			GetRead(dleng, byte_swap_cb.Checked);
-			if(parent.script_recording)
-			{
-                string parameters = "BinRead";
-                parameters += parent.ScriptSeparator + Filename;
-				parameters += parent.ScriptSeparator+Filesize.ToString();
-                parameters += parent.ScriptSeparator + dleng.ToString();
-                parameters += parent.ScriptSeparator + byte_swap_cb.Checked.ToString();
-                parent.MyScripts_Add(parameters, cinfo);
-			}
 
 			Dispose();
 		}

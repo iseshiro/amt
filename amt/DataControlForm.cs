@@ -746,7 +746,6 @@ namespace amt
                         parent.Cnsl_msg("Error: Invalid Frequency:" + Frequency_tb.Text);
                     }
                     myasio.makePureTone(amp, freq, (int)cinfo.type, cinfo.btn_no);
-                    if (parent.script_recording) parent.MyScripts_Add("makePureTone" + parent.ScriptSeparator + amp.ToString() + parent.ScriptSeparator + freq.ToString(), cinfo);
                     parent.PostCreateSignal(cinfo, "PureTone was created.");
                     break;
                 case SignalType.TSP:
@@ -762,38 +761,27 @@ namespace amt
                     int flag = (hilo_cb.Checked ? 1 : -1);
 
                     myasio.makeTSP(fftpoint, (int)cinfo.type, cinfo.btn_no, amp, coef_m_numer, coef_m_denom, coef_shift, flag);
-                    if (parent.script_recording) parent.MyScripts_Add("makeTSP" + parent.ScriptSeparator + fftpoint.ToString()
-                        + parent.ScriptSeparator + amp.ToString()
-                        + parent.ScriptSeparator + coef_m_numer.ToString()
-                        + parent.ScriptSeparator + coef_m_denom.ToString()
-                        + parent.ScriptSeparator + coef_shift.ToString()
-                        + parent.ScriptSeparator + flag.ToString(), cinfo
-                        );
                     parent.PostCreateSignal(cinfo, "TSP was created.");
                     break;
                 case SignalType.Pink_Pole:
                     rndm_coef = (uint)Environment.TickCount;
                     myasio.makePinkNoise_Pole(amp, rndm_coef, (int)cinfo.type, cinfo.btn_no);
-                    if (parent.script_recording) parent.MyScripts_Add("makePinkNoise" + parent.ScriptSeparator + amp.ToString() + parent.ScriptSeparator + rndm_coef.ToString() + parent.ScriptSeparator + "Pole", cinfo);
                     parent.PostCreateSignal(cinfo, "Pink Noise (Traditional Pole Model) was created.");
                     break;
                 case SignalType.Pink_Voss:
                     rndm_coef = (uint)Environment.TickCount;
                     myasio.makePinkNoise_Voss(amp, rndm_coef, (int)cinfo.type, cinfo.btn_no);
-                    if (parent.script_recording) parent.MyScripts_Add("makePinkNoise" + parent.ScriptSeparator + amp.ToString() + parent.ScriptSeparator + rndm_coef.ToString() + parent.ScriptSeparator + "Voss", cinfo);
                     parent.PostCreateSignal(cinfo, "Pink Noise (Voss algorithm) was created.");
                     break;
                 case SignalType.White:
                     rndm_coef = (uint)Environment.TickCount;
                     myasio.makeWhiteNoise(amp, rndm_coef, (int)cinfo.type, cinfo.btn_no);
-                    if (parent.script_recording) parent.MyScripts_Add("makeWhiteNoise" + parent.ScriptSeparator + amp.ToString() + parent.ScriptSeparator + rndm_coef.ToString(), cinfo);
                     parent.PostCreateSignal(cinfo, "White Noise was created.");
                     break;
                 case SignalType.Pulse:
                     int delay = System.Convert.ToInt32(pulse_delay_tb.Text);
                     int width = System.Convert.ToInt32(pulse_width_tb.Text);
                     myasio.makePulse(amp, delay, width, (int)cinfo.type, cinfo.btn_no);
-                    if (parent.script_recording) parent.MyScripts_Add("makePulse" + parent.ScriptSeparator + amp.ToString() + parent.ScriptSeparator + delay.ToString() + parent.ScriptSeparator + width.ToString(), cinfo);
                     parent.PostCreateSignal(cinfo, "Pulse was created.");
                     break;
                 case SignalType.Filter:
@@ -803,7 +791,6 @@ namespace amt
                     int level_to = System.Convert.ToInt32(level_to_tb.Text);
                     fftpoint = System.Convert.ToInt32(filt_fftpnt_tb.Text);
                     myasio.makeFilter(freq_from, freq_to, level_from, level_to, fftpoint, (int)cinfo.type, cinfo.btn_no);
-                    if (parent.script_recording) parent.MyScripts_Add("makeFilter" + parent.ScriptSeparator + freq_from.ToString() + parent.ScriptSeparator + freq_to.ToString() + parent.ScriptSeparator + level_from.ToString() + parent.ScriptSeparator + level_to.ToString() + parent.ScriptSeparator + fftpoint.ToString(), cinfo);
                     parent.PostCreateSignal(cinfo, "Filter was created.");
                     break;
                 case SignalType.Saw:
@@ -812,7 +799,6 @@ namespace amt
                     int period_point = System.Convert.ToInt32(period_point_tb.Text);
                     bool max2min = max2min_rb.Checked;
                     myasio.makeSaw((int)cinfo.type, cinfo.btn_no, max_val, min_val, period_point, max2min);
-                    if (parent.script_recording) parent.MyScripts_Add("makeSaw" + parent.ScriptSeparator + max_val.ToString() + parent.ScriptSeparator + min_val.ToString() + parent.ScriptSeparator + period_point.ToString() + parent.ScriptSeparator + max2min.ToString(), cinfo);
                     parent.PostCreateSignal(cinfo, "Saw was created.");
                     break;
             }

@@ -128,7 +128,6 @@ namespace amt
         {
             parent.asio.spamp_gain_push(current_val);
             if (parent.asio.get_stop() == true) parent.asio.damp_volume_set(current_val);
-            if (parent.script_recording) parent.myScripts.Add("SPGain" + parent.ScriptSeparator + current_val.ToString());
         }
     }
 }
