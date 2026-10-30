@@ -1,0 +1,21 @@
+*~
+.#*
+\#*#
+.vs/
+*/Debug/
+*/Release/
+packages/
+x86/
+backup/
+Debug/
+Release/
+UpgradeLog.htm
+*.wav
+*.double
+*.asv
+.claude/
+obj/
+*.user
+*.suo
+# Steinberg ASIO SDK (download it yourself, see README.md)
+external/ASIOSDK/

@@ -1,0 +1,11 @@
+data_create:OUT:1-96
+WavRead:E/\temp\out\out_normal\data{0/D2}.wav:3:OUT:1-96
+PlayStart
+WavRead:E/\temp\out\out_reg_heuristic\data{0/D2}.wav:1:OUT:1-96
+PlayStart
+WavRead:E/\temp\out\out_reg_optimum\data{0/D2}.wav:1:OUT:1-96
+PlayStart
+WavRead:E/\temp\out\out_sval_trunc_8000\data{0/D2}.wav:1:OUT:1-96
+PlayStart
+WavRead:E/\temp\out\out_sval_suppress_30\data{0/D2}.wav:1:OUT:1-96
+PlayStart
