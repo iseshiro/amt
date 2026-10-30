@@ -15,7 +15,7 @@ namespace amt
 { 
    public class Amt : System.Windows.Forms.Form
     {
-        public string ver_rev = "ver. 2.1 rev. 2";
+        public string ver_rev = "ver. 2.2 rev. 0";
 
         #region Form declation
         private System.Windows.Forms.MainMenu mainMenu1;
