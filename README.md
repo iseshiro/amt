@@ -20,7 +20,6 @@ An acoustic measurement tool for Windows using ASIO audio interfaces
 | `asio_io/` | ASIO I/O wrapper (C++/CLI) |
 | `dsp_core/` | DSP engine — **binary only** (headers + import library + DLL). See [dsp_core/README.md](dsp_core/README.md) |
 | `amt_setup/` | Installer project (Visual Studio Installer Projects) |
-| `check/` | MATLAB helper scripts |
 | `external/ASIOSDK/` | Steinberg ASIO SDK — **not included**, put it here yourself |
 
 ## Build
@@ -74,7 +73,7 @@ please open an issue describing the API you need.
 
 ## License
 
-- `amt/`, `asio_io/`, `amt_setup/`, `check/`: [MIT License](LICENSE)
+- `amt/`, `asio_io/`, `amt_setup/`: [MIT License](LICENSE)
 - `dsp_core/` binary and third-party components: see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
 
 ASIO is a trademark and software of Steinberg Media Technologies GmbH.
